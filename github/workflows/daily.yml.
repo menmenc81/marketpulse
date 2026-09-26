@@ -1,0 +1,41 @@
+# קובץ זה אומר ל-GitHub: "כל יום, בשעה מסוימת, תריץ את fetch_data.py
+# ותשמור את התוצאה (index.html) בחזרה למאגר, כדי שהאתר יתעדכן."
+
+name: daily
+
+on:
+  # מריץ אוטומטית כל יום בשעה 04:00 UTC (בערך 06:00-07:00 שעון ישראל, תלוי בשעון קיץ/חורף)
+  schedule:
+    - cron: "0 4 * * *"
+  # מאפשר גם הרצה ידנית מתוך לשונית Actions באתר GitHub
+  workflow_dispatch: {}
+
+# מאפשר לתהליך לשמור (לבצע commit) קובץ מעודכן חזרה למאגר
+permissions:
+  contents: write
+
+jobs:
+  build-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: הורדת הקוד מהמאגר
+        uses: actions/checkout@v4
+
+      - name: התקנת פייתון
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: התקנת הספריות הנדרשות
+        run: pip install -r requirements.txt
+
+      - name: הרצת הסקריפט שמושך נתונים ובונה את הדשבורד
+        run: python fetch_data.py
+
+      - name: שמירת הדשבורד המעודכן בחזרה למאגר
+        run: |
+          git config user.name "marketpulse-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add index.html
+          git commit -m "עדכון יומי אוטומטי" || echo "אין שינויים לשמור"
+          git push
