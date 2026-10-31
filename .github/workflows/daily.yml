@@ -41,6 +41,6 @@ jobs:
         run: |
           git config user.name "marketpulse-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add index.html
+          git add index.html signals_log.json
           git commit -m "עדכון יומי אוטומטי" || echo "אין שינויים לשמור"
           git push
