@@ -358,5 +358,77 @@
 "target": 136.87,
 "shown": false,
 "status": "open"
+},
+{
+"date": "2026-10-31",
+"ticker": "RTX",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 53,
+"entry": 199.8,
+"stop": 186.6816,
+"target": 226.41,
+"shown": true,
+"status": "open"
+},
+{
+"date": "2026-10-31",
+"ticker": "LHX",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 53,
+"entry": 277.61,
+"stop": 257.1093,
+"target": 308.361,
+"shown": true,
+"status": "open"
+},
+{
+"date": "2026-10-31",
+"ticker": "XLE",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 51,
+"entry": 70.02,
+"stop": 65.9336,
+"target": 78.1928,
+"shown": false,
+"status": "open"
+},
+{
+"date": "2026-10-31",
+"ticker": "LMT",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 42,
+"entry": 636.95,
+"stop": 574.3186,
+"target": 730.8972,
+"shown": false,
+"status": "open"
+},
+{
+"date": "2026-10-31",
+"ticker": "CVX",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 40,
+"entry": 235.52,
+"stop": 221.315,
+"target": 263.93,
+"shown": false,
+"status": "open"
+},
+{
+"date": "2026-10-31",
+"ticker": "PFE",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 23,
+"entry": 30.52,
+"stop": 29.0691,
+"target": 34.1414,
+"shown": false,
+"status": "open"
 }
 ]
