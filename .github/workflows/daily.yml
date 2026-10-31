@@ -31,16 +31,20 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: הרצת הסקריפט שמושך נתונים ובונה את הדשבורד
+        # shell: bash מפעיל גם pipefail, כדי שכשל בסקריפט לא יוסתר על ידי tee
+        shell: bash
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python fetch_data.py
+        # -W ignore מסתיר אזהרות ארוכות של הספריות. התוצאה נשמרת גם בקובץ run_log.txt
+        run: python -u -W ignore fetch_data.py 2>&1 | tee run_log.txt
 
       - name: שמירת הדשבורד המעודכן בחזרה למאגר
+        if: always()   # גם אם הסקריפט נכשל, כדי שיומן השגיאה יישמר
         run: |
           git config user.name "marketpulse-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add index.html signals_log.json
+          git add index.html signals_log.json run_log.txt
           git commit -m "עדכון יומי אוטומטי" || echo "אין שינויים לשמור"
           git push
