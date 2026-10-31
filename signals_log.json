@@ -820,5 +820,18 @@
 "shown": false,
 "status": "open",
 "v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "GOOGL",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 16,
+"entry": 279.84,
+"stop": 312.3664,
+"target": 214.7871,
+"shown": false,
+"status": "open",
+"v": 2
 }
 ]
