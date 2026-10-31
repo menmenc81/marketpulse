@@ -9,7 +9,7 @@
 "stop": 78.5436,
 "target": 105.1129,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -21,7 +21,7 @@
 "stop": 105.5839,
 "target": 88.5321,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -33,7 +33,7 @@
 "stop": 174.8307,
 "target": 202.2011,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -45,7 +45,7 @@
 "stop": 1272.8156,
 "target": 1634.6266,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -57,7 +57,7 @@
 "stop": 156.2264,
 "target": 192.3604,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -69,7 +69,7 @@
 "stop": 122.7093,
 "target": 104.0611,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -81,7 +81,7 @@
 "stop": 49.4921,
 "target": 34.8157,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -93,7 +93,7 @@
 "stop": 14.1093,
 "target": 10.8114,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -105,7 +105,7 @@
 "stop": 351.1357,
 "target": 404.7714,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -117,7 +117,7 @@
 "stop": 72.6364,
 "target": 88.8171,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -129,7 +129,7 @@
 "stop": 81.3357,
 "target": 82.4154,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -141,7 +141,7 @@
 "stop": 16.4693,
 "target": 12.9914,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -153,7 +153,7 @@
 "stop": 27.5564,
 "target": 25.5571,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -165,7 +165,7 @@
 "stop": 2034.9286,
 "target": 1467.6071,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -177,7 +177,7 @@
 "stop": 70774.2857,
 "target": 48081.4286,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -189,7 +189,7 @@
 "stop": 276.2676,
 "target": 332.1348,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -201,7 +201,7 @@
 "stop": 174.8407,
 "target": 212.0686,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -213,7 +213,7 @@
 "stop": 312.3664,
 "target": 214.7871,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -225,7 +225,7 @@
 "stop": 167.3936,
 "target": 89.1097,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -237,7 +237,7 @@
 "stop": 86.3379,
 "target": 34.8932,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -249,7 +249,7 @@
 "stop": 52.2969,
 "target": 24.3763,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -261,7 +261,7 @@
 "stop": 430.3872,
 "target": 527.5,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -273,7 +273,7 @@
 "stop": 31.7336,
 "target": 13.9,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -285,7 +285,7 @@
 "stop": 718.5127,
 "target": 473.424,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -297,7 +297,7 @@
 "stop": 131.9293,
 "target": 64.9061,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -309,7 +309,7 @@
 "stop": 721.6929,
 "target": 587.7107,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -321,7 +321,7 @@
 "stop": 163.7986,
 "target": 116.7929,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -333,7 +333,7 @@
 "stop": 3630.2143,
 "target": 2846.5714,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -345,7 +345,7 @@
 "stop": 3695.5714,
 "target": 2793.0,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -357,7 +357,7 @@
 "stop": 188.89,
 "target": 136.87,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -369,7 +369,7 @@
 "stop": 186.6816,
 "target": 226.41,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -381,7 +381,7 @@
 "stop": 257.1093,
 "target": 308.361,
 "shown": true,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -393,7 +393,7 @@
 "stop": 65.9336,
 "target": 78.1928,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -405,7 +405,7 @@
 "stop": 574.3186,
 "target": 730.8972,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -417,7 +417,7 @@
 "stop": 221.315,
 "target": 263.93,
 "shown": false,
-"status": "open"
+"status": "legacy"
 },
 {
 "date": "2026-10-31",
@@ -429,6 +429,396 @@
 "stop": 29.0691,
 "target": 34.1414,
 "shown": false,
-"status": "open"
+"status": "legacy"
+},
+{
+"date": "2026-10-31",
+"ticker": "XLC",
+"asset_class": "קרנות סל ומדדים",
+"direction": "sell",
+"score": 58,
+"entry": 99.9,
+"stop": 105.5839,
+"target": 88.5321,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "GD",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 55,
+"entry": 372.59,
+"stop": 351.1357,
+"target": 404.7714,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "RTX",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 55,
+"entry": 199.8,
+"stop": 186.6816,
+"target": 226.41,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "LLY",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 54,
+"entry": 1417.54,
+"stop": 1272.8156,
+"target": 1634.6266,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "LHX",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 52,
+"entry": 277.61,
+"stop": 257.1093,
+"target": 308.361,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "EIS",
+"asset_class": "קרנות סל ומדדים",
+"direction": "sell",
+"score": 51,
+"entry": 115.25,
+"stop": 122.7093,
+"target": 104.0611,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "XLV",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 48,
+"entry": 184.87,
+"stop": 174.8307,
+"target": 202.2011,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "XLE",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 48,
+"entry": 70.02,
+"stop": 65.9336,
+"target": 78.1928,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "GILD",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 46,
+"entry": 170.68,
+"stop": 156.2264,
+"target": 192.3604,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "PPLT",
+"asset_class": "סחורות",
+"direction": "sell",
+"score": 46,
+"entry": 13.01,
+"stop": 14.1093,
+"target": 10.8114,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "MO",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 42,
+"entry": 78.03,
+"stop": 72.6364,
+"target": 88.8171,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "XOM",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 42,
+"entry": 187.25,
+"stop": 174.8407,
+"target": 212.0686,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "LMT",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 42,
+"entry": 636.95,
+"stop": 574.3186,
+"target": 730.8972,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "MGDL.TA",
+"asset_class": "מניות ישראליות",
+"direction": "sell",
+"score": 42,
+"entry": 1808.0,
+"stop": 2034.9286,
+"target": 1467.6071,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "FTAL.TA",
+"asset_class": "מניות ישראליות",
+"direction": "sell",
+"score": 42,
+"entry": 63210.0,
+"stop": 70774.2857,
+"target": 48081.4286,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "CVX",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 41,
+"entry": 235.52,
+"stop": 221.315,
+"target": 263.93,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "ABBV",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 38,
+"entry": 294.89,
+"stop": 276.2676,
+"target": 332.1348,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "SHY",
+"asset_class": "אגרות חוב",
+"direction": "buy",
+"score": 30,
+"entry": 81.7,
+"stop": 81.3357,
+"target": 82.4154,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "PFE",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 30,
+"entry": 30.52,
+"stop": 29.0691,
+"target": 34.1414,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "RBLX",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 28,
+"entry": 42.99,
+"stop": 52.2969,
+"target": 24.3763,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "FTNT",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 27,
+"entry": 136.08,
+"stop": 167.3936,
+"target": 89.1097,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "CAT",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 23,
+"entry": 622.75,
+"stop": 718.5127,
+"target": 473.424,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "INTC",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 23,
+"entry": 65.76,
+"stop": 86.3379,
+"target": 34.8932,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "NOW",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 17,
+"entry": 105.12,
+"stop": 131.9293,
+"target": 64.9061,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "AMGN",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 15,
+"entry": 466.01,
+"stop": 430.3872,
+"target": 527.5,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "BEZQ.TA",
+"asset_class": "מניות ישראליות",
+"direction": "sell",
+"score": 4,
+"entry": 668.1,
+"stop": 721.6929,
+"target": 587.7107,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "BKNG",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 4,
+"entry": 148.13,
+"stop": 163.7986,
+"target": 116.7929,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "SAE.TA",
+"asset_class": "מניות ישראליות",
+"direction": "sell",
+"score": 0,
+"entry": 3369.0,
+"stop": 3630.2143,
+"target": 2846.5714,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "PTNR.TA",
+"asset_class": "מניות ישראליות",
+"direction": "sell",
+"score": 0,
+"entry": 3336.0,
+"stop": 3695.5714,
+"target": 2793.0,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-10-31",
+"ticker": "BA",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 0,
+"entry": 171.55,
+"stop": 188.89,
+"target": 136.87,
+"shown": false,
+"status": "open",
+"v": 2
 }
 ]
