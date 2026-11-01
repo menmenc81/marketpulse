@@ -833,5 +833,31 @@
 "shown": false,
 "status": "open",
 "v": 2
+},
+{
+"date": "2026-11-01",
+"ticker": "SPGI",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 43,
+"entry": 466.55,
+"stop": 432.6435,
+"target": 534.3629,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-01",
+"ticker": "TXN",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 38,
+"entry": 300.84,
+"stop": 269.3306,
+"target": 348.1041,
+"shown": false,
+"status": "open",
+"v": 2
 }
 ]
