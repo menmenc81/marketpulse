@@ -859,5 +859,31 @@
 "shown": false,
 "status": "open",
 "v": 2
+},
+{
+"date": "2026-11-02",
+"ticker": "MA",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 43,
+"entry": 638.01,
+"stop": 602.7429,
+"target": 708.5442,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-02",
+"ticker": "CLIS.TA",
+"asset_class": "מניות ישראליות",
+"direction": "sell",
+"score": 0,
+"entry": 26450.0,
+"stop": 29743.5714,
+"target": 19862.8571,
+"shown": false,
+"status": "open",
+"v": 2
 }
 ]
