@@ -7,12 +7,11 @@
 סורק: אגרות חוב (16 ניירות)
 סורק: סחורות (10 ניירות)
 סורק: קריפטו (10 ניירות)
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: CLIS.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: SAE.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: ALHE.TA"}}}
 כותרות חדשות: נמצאו ל-27 מתוך 30 מועמדים (yfinance: 0, RSS: 27).
 ניתוח AI הושלם עבור 27 ניירות ערך.
-$SPGI: possibly delisted; no price data found  (1d 2026-11-01 -> 2026-11-02)
-$TXN: possibly delisted; no price data found  (1d 2026-11-01 -> 2026-11-02)
 מעקב: 0 איתותים נסגרו בריצה זו.
-נרשמו 2 איתותים חדשים למעקב.
+נרשמו 14 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.
