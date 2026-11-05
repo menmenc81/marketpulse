@@ -441,8 +441,12 @@
 "stop": 105.5839,
 "target": 88.5321,
 "shown": true,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 105.5839,
+"ret": -5.69,
+"closed": "2026-11-04",
+"days": 3
 },
 {
 "date": "2026-10-31",
@@ -493,8 +497,12 @@
 "stop": 257.1093,
 "target": 308.361,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 257.1093,
+"ret": -7.38,
+"closed": "2026-11-04",
+"days": 3
 },
 {
 "date": "2026-10-31",
@@ -532,8 +540,12 @@
 "stop": 65.9336,
 "target": 78.1928,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 65.9336,
+"ret": -5.84,
+"closed": "2026-11-04",
+"days": 3
 },
 {
 "date": "2026-10-31",
@@ -584,8 +596,12 @@
 "stop": 174.8407,
 "target": 212.0686,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 174.8407,
+"ret": -6.63,
+"closed": "2026-11-04",
+"days": 3
 },
 {
 "date": "2026-10-31",
@@ -636,8 +652,12 @@
 "stop": 221.315,
 "target": 263.93,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 221.315,
+"ret": -6.03,
+"closed": "2026-11-04",
+"days": 3
 },
 {
 "date": "2026-10-31",
@@ -779,8 +799,12 @@
 "stop": 163.7986,
 "target": 116.7929,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 163.7986,
+"ret": -10.58,
+"closed": "2026-11-04",
+"days": 3
 },
 {
 "date": "2026-10-31",
@@ -1169,8 +1193,12 @@
 "stop": 2868.6429,
 "target": 3435.4286,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 2868.6429,
+"ret": -3.8,
+"closed": "2026-11-05",
+"days": 1
 },
 {
 "date": "2026-11-04",
@@ -1220,6 +1248,110 @@
 "entry": 142.57,
 "stop": 169.3189,
 "target": 89.0723,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "FXI",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 48,
+"entry": 34.59,
+"stop": 33.2293,
+"target": 36.6311,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "BLK",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 46,
+"entry": 1224.37,
+"stop": 1137.7643,
+"target": 1354.2785,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "ISRG",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 45,
+"entry": 482.1,
+"stop": 433.4143,
+"target": 572.51,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "MMM",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 41,
+"entry": 193.95,
+"stop": 177.1671,
+"target": 219.1243,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "NEE",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 41,
+"entry": 88.45,
+"stop": 82.7521,
+"target": 99.3235,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "SYK",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 35,
+"entry": 339.65,
+"stop": 303.9264,
+"target": 411.0971,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "ADP",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 26,
+"entry": 303.54,
+"stop": 280.7098,
+"target": 352.0243,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-05",
+"ticker": "ETN",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 7,
+"entry": 353.08,
+"stop": 404.0918,
+"target": 239.02,
 "shown": false,
 "status": "open",
 "v": 2
