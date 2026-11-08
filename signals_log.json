@@ -1704,5 +1704,18 @@
 "shown": false,
 "status": "open",
 "v": 2
+},
+{
+"date": "2026-11-08",
+"ticker": "DOGE-USD",
+"asset_class": "קריפטו",
+"direction": "sell",
+"score": 24,
+"entry": 0.0709,
+"stop": 0.0788,
+"target": 0.0533,
+"shown": false,
+"status": "open",
+"v": 2
 }
 ]
