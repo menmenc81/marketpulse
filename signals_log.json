@@ -1717,5 +1717,31 @@
 "shown": false,
 "status": "open",
 "v": 2
+},
+{
+"date": "2026-11-09",
+"ticker": "TEVA.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 51,
+"entry": 13670.0,
+"stop": 12335.0,
+"target": 15810.0,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-09",
+"ticker": "TAN",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 41,
+"entry": 45.58,
+"stop": 39.9379,
+"target": 54.0432,
+"shown": false,
+"status": "open",
+"v": 2
 }
 ]
