@@ -694,8 +694,12 @@
 "stop": 81.3357,
 "target": 82.4154,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 81.3357,
+"ret": -0.45,
+"closed": "2026-11-10",
+"days": 7
 },
 {
 "date": "2026-10-31",
@@ -1268,8 +1272,12 @@
 "stop": 100.2821,
 "target": 144.6714,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 100.2821,
+"ret": -8.13,
+"closed": "2026-11-10",
+"days": 4
 },
 {
 "date": "2026-11-04",
@@ -1554,8 +1562,12 @@
 "stop": 305.1743,
 "target": 153.5136,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 305.1743,
+"ret": -24.81,
+"closed": "2026-11-10",
+"days": 2
 },
 {
 "date": "2026-11-06",
@@ -1969,6 +1981,84 @@
 "entry": 193.12,
 "stop": 211.6321,
 "target": 165.3518,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-11",
+"ticker": "NVMI.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 51,
+"entry": 109470.0,
+"stop": 94127.1429,
+"target": 140155.7143,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-11",
+"ticker": "AMZN",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 48,
+"entry": 270.87,
+"stop": 238.8407,
+"target": 318.9139,
+"shown": true,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-11",
+"ticker": "AMD",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 44,
+"entry": 515.21,
+"stop": 391.437,
+"target": 771.1228,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-11",
+"ticker": "UNG",
+"asset_class": "סחורות",
+"direction": "buy",
+"score": 31,
+"entry": 10.42,
+"stop": 9.3829,
+"target": 12.4943,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-11",
+"ticker": "ITA",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 23,
+"entry": 72.35,
+"stop": 66.6261,
+"target": 84.1991,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-11",
+"ticker": "AZRG.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 6,
+"entry": 33410.0,
+"stop": 31467.5,
+"target": 41180.0,
 "shown": false,
 "status": "open",
 "v": 2

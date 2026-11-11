@@ -8,14 +8,14 @@
 סורק: סחורות (10 ניירות)
 סורק: קריפטו (10 ניירות)
 ניירות שדולגו (לא נמצאו נתונים): ROKU
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: AZRG.TA"}}}
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: POLI.TA"}}}
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: LUMI.TA"}}}
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: OPCE.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: POLI.TA"}}}
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: DSCT.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: OPCE.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: AZRG.TA"}}}
 כותרות חדשות: נמצאו ל-26 מתוך 30 מועמדים (yfinance: 24, RSS: 2).
 ניתוח AI הושלם עבור 26 ניירות ערך.
-מעקב: 2 איתותים נסגרו בריצה זו.
-נרשמו 17 איתותים חדשים למעקב.
+מעקב: 3 איתותים נסגרו בריצה זו.
+נרשמו 6 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.
