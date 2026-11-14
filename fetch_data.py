@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 import yfinance as yf
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 # ------------------------------------------------------------------
@@ -26,7 +26,7 @@ DASHBOARD_TOP = 5             # כמה איתותים להציג בדשבורד 
 TELEGRAM_TOP = 5              # כמה איתותים לשלוח בטלגרם
 MIN_SCORE = 0                 # מציגים ושולחים רק איתותים עם ציון זה ומעלה (הציון עצמו כלול).
                               # 0 = ללא סף: תמיד מוצגים 5 הציונים הגבוהים. אחרי שיצטברו נתוני מעקב אפשר להעלות
-SHORTLIST_TOTAL = 30          # כמה מועמדים (מכל הנכסים יחד) עוברים לשלב ההעשרה
+SHORTLIST_TOTAL = 40          # כמה מועמדים (מכל הנכסים יחד) עוברים לשלב ההעשרה
 
 # רמות כניסה / סטופ / יעד נקבעות לפי מבנה השוק (שפל/שיא אחרון וטווח ויקוף),
 # ולא ביחס קבוע. הגבולות הבאים מונעים ערכים קיצוניים:
@@ -35,6 +35,11 @@ MAX_STOP_ATR = 3.0            # מרחק סטופ מקסימלי, בכפולות
 MIN_RR = 1.5                  # יחס סיכוי/סיכון מינימלי ליעד
 MAX_RR = 4.0                  # יחס סיכוי/סיכון מקסימלי ליעד
 MAX_TARGET_ATR = 6.0          # תקרת מרחק היעד, בכפולות של ATR (אופק של כמה שבועות)
+RISK_PER_TRADE_PCT = 1.0      # כמה אחוז מהתיק מסכנים בכל איתות (ההפסד אם הסטופ נפגע). משנים כאן
+MAX_POSITION_PCT = 25.0       # תקרה לגודל פוזיציה מוצע (באחוזי תיק), גם כשהסטופ צמוד מאוד
+RSI_BUY_MAX = 75              # לא מציגים קנייה כשה-RSI בגובה זה ומעלה (הנייר "מתוח")
+RSI_SELL_MIN = 25             # לא מציגים מכירה כשה-RSI בגובה זה ומטה (הנייר כבר נמכר חזק)
+EXT_ATR_MAX = 3.0             # מרחק מירבי מממוצע 20 יום, בכפולות ATR, כדי לא "לרדוף" אחרי תנועה שכבר קרתה
 ANALYST_CONFLICT_PENALTY = 8  # הורדת ציון כשיעד האנליסטים סותר את כיוון האיתות
 COVERAGE_DISCOUNT = 0.4      # הנחה מרבית בציון לנכס שיש לו רק מקור מידע אחד
 THEME_ACTIVE_MIN = 30         # עוצמה מינימלית (0-100) כדי שתמת עולם תיחשב פעילה
@@ -581,6 +586,9 @@ def analyze_price(ticker, asset_class):
 
         tech_dir, tech_flags = technical_signals(closes)
         symbol, divisor = currency_of(ticker)
+        sma20 = float(closes.iloc[-20:].mean())
+        ext_atr = (last - sma20) / atr if atr > 0 else 0.0    # כמה ATR המחיר רחוק מממוצע 20 יום
+        rsi = rsi_value(closes)
 
         wy = wyckoff_analysis(hist)
         win10 = min(10, len(hist))
@@ -591,6 +599,8 @@ def analyze_price(ticker, asset_class):
             "asset_class": asset_class,
             "last": last,
             "atr": atr,
+            "rsi": rsi,
+            "ext_atr": ext_atr,
             "symbol": symbol,
             "divisor": divisor,
             "price_dir": price_dir,
@@ -776,6 +786,40 @@ def get_headlines(ticker_obj, limit=5, ticker=None):
     return out
 
 
+EARNINGS_BLOCK_DAYS = 7      # מניה עם דוחות רבעוניים בטווח הזה לא תוצג כאיתות (קפיצות מחיר סביב דוחות)
+EARNINGS_STATS = {"known": 0, "unknown": 0, "soon": 0}
+
+
+def next_earnings_days(ticker_obj):
+    # מחזיר בעוד כמה ימים (מהיום) מתפרסמים הדוחות הקרובים. -1 = פורסמו אתמול (אחרי הסגירה), None = לא ידוע.
+    today = datetime.now(timezone.utc).date()
+    dates = []
+    try:
+        cal = ticker_obj.calendar
+        ed = cal.get("Earnings Date") if isinstance(cal, dict) else None
+        if ed:
+            dates += list(ed) if isinstance(ed, (list, tuple)) else [ed]
+    except Exception:
+        pass
+    if not dates:
+        try:
+            df = ticker_obj.get_earnings_dates(limit=8)
+            if df is not None and len(df):
+                dates += list(df.index)
+        except Exception:
+            pass
+    best = None
+    for d in dates:
+        try:
+            dd = d.date() if isinstance(d, datetime) else d
+            delta = (dd - today).days
+        except Exception:
+            continue
+        if delta >= -1 and (best is None or delta < best):
+            best = delta
+    return best
+
+
 def enrich(p, asset_class):
     t = yf.Ticker(p["ticker"])
     info = {}
@@ -788,6 +832,15 @@ def enrich(p, asset_class):
         p["name"] = str(name)
     if asset_class in ANALYST_CLASSES:
         add_analyst_data(p, t, info)
+        days = next_earnings_days(t)
+        p["earnings_days"] = days
+        if days is None:
+            EARNINGS_STATS["unknown"] += 1
+        else:
+            EARNINGS_STATS["known"] += 1
+            if days <= EARNINGS_BLOCK_DAYS:
+                p["earnings_soon"] = True
+                EARNINGS_STATS["soon"] += 1
     p["headlines"] = get_headlines(t, ticker=p["ticker"])
     return p
 
@@ -930,6 +983,17 @@ def finalize(p):
     p["target_note"] = note
     p["raw_entry"], p["raw_stop"], p["raw_target"] = last, stop, target   # מחירים גולמיים, למעקב ביצועים
 
+    # גודל פוזיציה מוצע: ההפסד עד הסטופ יהיה RISK_PER_TRADE_PCT מהתיק (סטופ רחב = פוזיציה קטנה)
+    stop_dist_pct = abs(stop - last) / last * 100
+    p["position_pct"] = round(min(MAX_POSITION_PCT, RISK_PER_TRADE_PCT / stop_dist_pct * 100), 1) if stop_dist_pct > 0 else None
+
+    # "מתיחות": לא רודפים אחרי תנועה שכבר קרתה (קנייה אחרי עלייה חדה, מכירה אחרי ירידה חדה)
+    rsi, ext = p.get("rsi"), p.get("ext_atr")
+    if direction == "buy" and ((rsi is not None and rsi >= RSI_BUY_MAX) or (ext is not None and ext >= EXT_ATR_MAX)):
+        p["overextended"] = f"הנייר מתוח כלפי מעלה (RSI {rsi:.0f}, {ext:.1f} ATR מעל ממוצע 20 יום): קנייה כאן היא רדיפה אחרי מחיר"
+    elif direction == "sell" and ((rsi is not None and rsi <= RSI_SELL_MIN) or (ext is not None and ext <= -EXT_ATR_MAX)):
+        p["overextended"] = f"הנייר מתוח כלפי מטה (RSI {rsi:.0f}, {abs(ext):.1f} ATR מתחת לממוצע 20 יום): מכירה כאן מסתכנת בתיקון כלפי מעלה"
+
     # סתירה: יעד המחיר הממוצע של האנליסטים הפוך לכיוון האיתות (למשל קנייה כשהיעד מתחת למחיר)
     up = p.get("analyst_upside")
     if up is not None and ((direction == "buy" and up < 0) or (direction == "sell" and up > 0)):
@@ -962,10 +1026,10 @@ MAX_PER_THEME = 2              # מקסימום איתותים באותו כיו
 LOG_PATH = "signals_log.json"
 # גרסת המודל. כשמשנים את דרך חישוב הציון משמעותית, מעלים את המספר: איתותים פתוחים מגרסה ישנה
 # מסומנים "legacy" (לא נבדקים ולא נספרים בסטטיסטיקה), והמעקב מתחיל מחדש לפי המודל הנוכחי.
-MODEL_VERSION = 2
+MODEL_VERSION = 4   # 4: סינון מתיחות (RSI/ATR) וגודל פוזיציה. 3: מתעדים רק איתותים שהוצגו, כולל רכיבי הציון, מעקב לפי מחיר נוכחי והשוואה ל-S&P 500
 TRACK_HORIZON_DAYS = 30        # אחרי כמה ימי מסחר איתות שלא הגיע ליעד/סטופ נסגר
 MIN_CLOSED_FOR_STATS = 30      # מתחת לכמות זו אין להסיק מסקנות מהסטטיסטיקה
-BUCKETS = [("מתחת ל-50", 0, 49), ("50 עד 59", 50, 59), ("60 עד 69", 60, 69), ("70 ומעלה", 70, 100)]
+BUCKETS = [("מתחת ל-40", 0, 39), ("40 עד 49", 40, 49), ("50 עד 59", 50, 59), ("60 ומעלה", 60, 100)]
 
 
 def market_regime():
@@ -1044,34 +1108,72 @@ def retire_old(log):
         print(f"מעקב: {n} איתותים פתוחים מגרסת מודל קודמת הוצאו מהמעקב.")
 
 
-def log_signals(log, shortlist, shown, today):
-    # מתעדים את כל 30 המועמדים (לא רק את המוצגים), כדי שאפשר יהיה להשוות בין טווחי ציון.
-    # נייר שיש עליו כבר איתות פתוח באותו כיוון לא נרשם שוב, כדי לא לספור את אותו מסחר פעמיים.
+def log_signals(log, signals, themes, today):
+    # מתעדים רק את האיתותים שהוצגו (ולא את כל 30 המועמדים): מועמדים חלשים בציון קרוב ל-0 הם "אין דעה"
+    # ומטים את הסטטיסטיקה. נייר שיש עליו כבר איתות פתוח באותו כיוון לא נרשם שוב.
     open_keys = {(r["ticker"], r["direction"]) for r in log if r["status"] == "open"}
     added = 0
-    for p in shortlist:
+    for p in signals:
         key = (p["ticker"], p["direction"])
         if key in open_keys:
             continue
+        g = theme_group(p, themes)
         log.append({
             "date": today, "ticker": p["ticker"], "asset_class": p["asset_class"],
             "direction": p["direction"], "score": p["score"],
             "entry": round(p["raw_entry"], 4), "stop": round(p["raw_stop"], 4),
             "target": round(p["raw_target"], 4),
-            "shown": p["ticker"] in shown, "status": "open", "v": MODEL_VERSION,
+            # רכיבי הציון (מ-100- עד 100): מאפשרים בהמשך לבדוק איזה רכיב באמת מנבא תוצאות
+            "comps": {k: round(float(v), 1) for k, v in (p.get("comps") or {}).items()},
+            "n_sources": p.get("n_sources"), "discount_pct": p.get("discount_pct"),
+            "earnings_days": p.get("earnings_days"),
+            "rsi": round(p["rsi"], 1) if p.get("rsi") is not None else None,
+            "ext_atr": round(p["ext_atr"], 2) if p.get("ext_atr") is not None else None,
+            "position_pct": p.get("position_pct"),
+            "cluster": f"{g or p['ticker']}|{p['direction']}",   # איתותים מאותה תמה נחשבים הימור אחד
+            "shown": True, "status": "open", "v": MODEL_VERSION,
         })
         open_keys.add(key)
         added += 1
     print(f"נרשמו {added} איתותים חדשים למעקב.")
 
 
+def load_spy(log):
+    dates = [r["date"] for r in log if r.get("v") == MODEL_VERSION]
+    if not dates:
+        return {}
+    try:
+        start = (datetime.strptime(min(dates), "%Y-%m-%d") - timedelta(days=10)).strftime("%Y-%m-%d")
+        h = yf.Ticker("SPY").history(start=start, auto_adjust=False).dropna(subset=["Close"])
+        return {d.strftime("%Y-%m-%d"): float(c) for d, c in zip(h.index, h["Close"])}
+    except Exception as e:
+        print(f"מעקב: טעינת S&P 500 להשוואה נכשלה: {e}")
+        return {}
+
+
+def spy_return(spy, d0, d1):
+    # תשואת S&P 500 (באחוזים) מהסגירה האחרונה עד תאריך d0 ועד הסגירה האחרונה עד תאריך d1
+    def close_on(day):
+        best = None
+        for d in sorted(spy):
+            if d <= day:
+                best = spy[d]
+            else:
+                break
+        return best
+    a, b = close_on(d0), close_on(d1)
+    return round((b / a - 1) * 100, 2) if a and b else None
+
+
 def evaluate_open(log):
     # בודק יום אחרי יום מה קרה לכל איתות פתוח: סטופ, יעד או פקיעה אחרי TRACK_HORIZON_DAYS ימי מסחר.
     # אם באותו יום נגעו גם בסטופ וגם ביעד, מניחים סטופ (הנחה שמרנית).
     # לא מדמה פערי פתיחה (gap) מעבר לסטופ, ולכן תוצאות אמיתיות יכולות להיות גרועות מעט יותר.
+    # לאיתות שעדיין פתוח נשמרת התשואה הלא ממומשת לפי הסגירה האחרונה (mtm), כדי שלא נסתכל רק על ה"מנצחים המהירים".
+    spy = load_spy(log)
     by_ticker = {}
     for r in log:
-        if r["status"] == "open":
+        if r["status"] == "open" and r.get("v") == MODEL_VERSION:
             by_ticker.setdefault(r["ticker"], []).append(r)
     closed_now = 0
     for tk, recs in by_ticker.items():
@@ -1087,6 +1189,7 @@ def evaluate_open(log):
         for r in recs:
             buy = r["direction"] == "buy"
             n = 0
+            closed = False
             for i, d in enumerate(dates):
                 if d <= r["date"]:
                     continue
@@ -1104,41 +1207,86 @@ def evaluate_open(log):
                 if status:
                     ret = (exit_px - r["entry"]) / r["entry"] * 100 * (1 if buy else -1)
                     r.update(status=status, exit=round(exit_px, 4), ret=round(ret, 2), closed=d, days=n)
+                    r["spy_ret"] = spy_return(spy, r["date"], d)
                     closed_now += 1
+                    closed = True
                     break
+            if not closed and n > 0:
+                last = float(hist["Close"].iloc[-1])
+                r["mtm"] = round((last - r["entry"]) / r["entry"] * 100 * (1 if buy else -1), 2)
+                r["mtm_date"] = dates[-1]
+                r["spy_ret"] = spy_return(spy, r["date"], dates[-1])
     print(f"מעקב: {closed_now} איתותים נסגרו בריצה זו.")
+
+
+CLOSED_STATUSES = ("target", "stop", "expired")
+
+
+def perf_value(r):
+    return r.get("ret") if r["status"] in CLOSED_STATUSES else r.get("mtm")
+
+
+def excess_over_spy(r):
+    v, s = perf_value(r), r.get("spy_ret")
+    if v is None or s is None:
+        return None
+    return v - (s if r["direction"] == "buy" else -s)
+
+
+def perf_row(name, rs):
+    vals = [perf_value(r) for r in rs if perf_value(r) is not None]
+    if not vals:
+        return ""
+    win = sum(1 for v in vals if v > 0) / len(vals) * 100
+    avg = sum(vals) / len(vals)
+    ex = [e for e in (excess_over_spy(r) for r in rs) if e is not None]
+    ex_text = f"{sum(ex) / len(ex):+.1f}%" if ex else "-"
+    return (f'<tr><td>{esc(name)}</td><td class="mono">{len(vals)}</td><td class="mono">{win:.0f}%</td>'
+            f'<td class="mono">{avg:+.1f}%</td><td class="mono">{ex_text}</td></tr>')
 
 
 def build_perf(log):
     current = [r for r in log if r.get("v") == MODEL_VERSION]
-    closed = [r for r in current if r["status"] in ("target", "stop", "expired")]
-    n_open = sum(1 for r in current if r["status"] == "open")
+    closed = [r for r in current if r["status"] in CLOSED_STATUSES]
+    opened = [r for r in current if r["status"] == "open"]
+    marked = [r for r in current if perf_value(r) is not None]
     head = '<div class="themes perf"><div class="main-title">מעקב ביצועים של איתותי העבר</div>'
-    if not closed:
-        body = (f'<div class="agree-line">נרשמו {len(current)} איתותים. עדיין אין איתותים שנסגרו '
-                f'(הגיעו ליעד, לסטופ או עברו {TRACK_HORIZON_DAYS} ימי מסחר). הנתונים יופיעו בשבועות הקרובים.</div>')
+    if not marked:
+        body = (f'<div class="agree-line">נרשמו {len(current)} איתותים. עדיין אין מחירים אחרי יום הרישום, '
+                f'הנתונים יופיעו בימים הקרובים.</div>')
         return head + body + "</div>", ""
-    rows = ""
-    for name, lo, hi in BUCKETS:
-        rs = [r for r in closed if lo <= r["score"] <= hi]
-        if not rs:
-            continue
-        win = sum(1 for r in rs if r["ret"] > 0) / len(rs) * 100
-        tgt = sum(1 for r in rs if r["status"] == "target") / len(rs) * 100
-        avg = sum(r["ret"] for r in rs) / len(rs)
-        rows += (f'<tr><td>{esc(name)}</td><td class="mono">{len(rs)}</td><td class="mono">{win:.0f}%</td>'
-                 f'<td class="mono">{tgt:.0f}%</td><td class="mono">{avg:+.1f}%</td></tr>')
-    table = ('<table><tr><th>טווח ציון</th><th>נסגרו</th><th>סיימו ברווח</th><th>הגיעו ליעד</th>'
-             f'<th>תשואה ממוצעת</th></tr>{rows}</table>')
+    cols = '<tr><th>{}</th><th>איתותים</th><th>ברווח</th><th>תשואה ממוצעת</th><th>מול S&P 500</th></tr>'
+    t1 = ('<table>' + cols.format("קבוצה") +
+          perf_row("נסגרו (יעד/סטופ/פקיעה)", closed) +
+          perf_row("פתוחים (לפי המחיר הנוכחי)", opened) +
+          perf_row("הכל", marked) + '</table>')
+    t2 = ('<table>' + cols.format("טווח ציון (הכל)") +
+          "".join(perf_row(name, [r for r in marked if lo <= r["score"] <= hi]) for name, lo, hi in BUCKETS) +
+          '</table>')
+    # איתותים מאותה תמה באותו שבוע הם בעצם הימור אחד: מחשבים ממוצע לכל "אירוע" ואז ממוצע על האירועים
+    groups = {}
+    for r in marked:
+        wk = datetime.strptime(r["date"], "%Y-%m-%d").isocalendar()[:2]
+        groups.setdefault((r.get("cluster") or r["ticker"], wk), []).append(perf_value(r))
+    gm = [sum(v) / len(v) for v in groups.values()]
+    indep = (f'<div class="agree-line">אירועים בלתי תלויים (בקירוב): {len(gm)}. '
+             f'תשואה ממוצעת לאירוע: {sum(gm) / len(gm):+.1f}%.</div>')
     warn = ""
     if len(closed) < MIN_CLOSED_FOR_STATS:
         warn = (f'<div class="note warn">נסגרו רק {len(closed)} איתותים. זה מעט מדי כדי להסיק מסקנות '
                 f'(מומלץ לפחות {MIN_CLOSED_FOR_STATS}, ועדיף הרבה יותר).</div>')
-    foot = (f'<div class="note">פתוחים כרגע: {n_open}. מחושב לפי מחירי יום המסחר (גבוה/נמוך), בלי עמלות ובלי פערי פתיחה. '
-            'נרשמים 30 המועמדים המובילים בכל יום, גם אלה שלא הוצגו. איתות על נייר שיש לו כבר איתות פתוח לא נרשם שוב.</div>')
-    all_win = sum(1 for r in closed if r["ret"] > 0) / len(closed) * 100
-    line = f"מעקב: {len(closed)} איתותי עבר נסגרו, {all_win:.0f}% מהם ברווח." if len(closed) >= 10 else ""
-    return head + table + warn + foot + "</div>", line
+    foot = ('<div class="note">התשואות לפי מחירי הגבוה/הנמוך היומיים, בלי עמלות ובלי פערי פתיחה. נרשמים רק האיתותים שהוצגו. '
+            'איתות על נייר שיש לו כבר איתות פתוח לא נרשם שוב. "מול S&P 500": התשואה פחות מה שהשוק עשה באותה תקופה '
+            '(במכירה: פלוס). מה שפתוח מחושב לפי הסגירה האחרונה.</div>')
+    vals = [perf_value(r) for r in marked]
+    ex = [e for e in (excess_over_spy(r) for r in marked) if e is not None]
+    line = ""
+    if len(marked) >= 10:
+        line = f"מעקב: {len(marked)} איתותי עבר (כולל פתוחים), תשואה ממוצעת {sum(vals) / len(vals):+.1f}%"
+        if ex:
+            line += f", מול S&P 500: {sum(ex) / len(ex):+.1f}%"
+        line += "."
+    return head + t1 + t2 + indep + warn + foot + "</div>", line
 
 
 # ------------------------------------------------------------------
@@ -1200,6 +1348,9 @@ def build_pick(rank, p):
     note = ""
     if cls == "sell":
         note += '<div class="note">איתות שלילי - רלוונטי למי שמחזיק את הנייר, או לפוזיציית שורט.</div>'
+    if p.get("position_pct") is not None:
+        note += (f'<div class="note">גודל הפוזיציה מחושב כך שהפסד עד הסטופ יהיה {RISK_PER_TRADE_PCT:g}% מהתיק '
+                 f'(תקרה {MAX_POSITION_PCT:g}%). סטופ רחב מחייב פוזיציה קטנה.</div>')
     if p.get("regime_note"):
         note += f'<div class="note warn">{esc(p["regime_note"])}</div>'
     if p.get("analyst_conflict"):
@@ -1221,6 +1372,7 @@ def build_pick(rank, p):
           <div class="lvl-row"><span>יעד (לימיט)</span><b class="up">{p['target']}</b><i>{p['target_pct']}</i></div>
           <div class="lvl-row"><span>סטופ לוס</span><b class="down">{p['stop']}</b><i>{p['stop_pct']}</i></div>
           <div class="rr mono">סיכוי/סיכון {p['rr_text']}</div>
+          <div class="rr mono">פוזיציה מוצעת: {p['position_pct']}% מהתיק</div>
         </div>
       </div>
       <div class="pick-main">
@@ -1382,13 +1534,15 @@ def build_html(top, scanned, ai_on, counts, themes=None, theme_source="none", ba
         body = '<div class="empty">לא נמצאו נתונים בריצה הנוכחית.</div>'
     else:
         extra = f"<br>{esc(best_text(best))}" if best else ""
-        body = f'<div class="empty">אין היום איתותים עם ציון {MIN_SCORE} ומעלה.{extra}</div>'
+        none_msg = (f"אין היום איתותים עם ציון {MIN_SCORE} ומעלה." if MIN_SCORE > 0
+                    else "אין היום איתותים שעברו את הסינון (דוחות רבעוניים קרובים, ניירות מתוחים).")
+        body = f'<div class="empty">{esc(none_msg)}{extra}</div>'
     if MIN_SCORE > 0:
         title = f"הזדמנויות עם ציון {MIN_SCORE} ומעלה"
-        subtxt = f"מוצגים רק איתותים עם ציון {MIN_SCORE} ומעלה (עד {DASHBOARD_TOP})."
+        subtxt = f"מוצגים רק איתותים עם ציון {MIN_SCORE} ומעלה (עד {DASHBOARD_TOP}), ללא מניות עם דוחות רבעוניים בשבוע הקרוב וללא ניירות מתוחים."
     else:
         title = f"{DASHBOARD_TOP} ההזדמנויות המובילות היום"
-        subtxt = "מוצגים הציונים הגבוהים ביותר, בלי סף מינימלי."
+        subtxt = "מוצגים הציונים הגבוהים ביותר, בלי סף מינימלי, ללא מניות שיש להן דוחות רבעוניים בשבוע הקרוב וללא ניירות מתוחים (RSI קיצוני)."
     sections = f'<div class="section-head">{esc(title)}</div>{body}'
     counts_text = " · ".join(f"{k} {v}" for k, v in counts.items())
     banner_html = f'<div class="banner">{esc(banner)}</div>' if banner else ""
@@ -1449,6 +1603,8 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
         lines.append(RLM + f"יעד (לימיט): {ltr(p['target'])} ({ltr(p['target_pct'])})")
         lines.append(RLM + f"סטופ לוס: {ltr(p['stop'])} ({ltr(p['stop_pct'])})")
         lines.append(RLM + f"סיכוי/סיכון: {ltr(p['rr_text'])}")
+        if p.get("position_pct") is not None:
+            lines.append(RLM + f"פוזיציה מוצעת: {ltr(str(p['position_pct']) + '%')} מהתיק (הפסד עד הסטופ: {ltr(f'{RISK_PER_TRADE_PCT:g}%')} מהתיק)")
         if p["reasons"]:
             lines.append(RLM + "נימוק: " + fix_numbers(" | ".join(p["reasons"][:4])[:320]))
         if p["target_note"].startswith(("היעד מעבר", "היעד הוגבל")):
@@ -1463,7 +1619,8 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
             lines.append(RLM + "איתות שלילי: רלוונטי למי שמחזיק את הנייר, או לפוזיציית שורט.")
         lines.append("")
     if not strong:
-        lines += [RLM + f"אין היום איתותים עם ציון {ltr(MIN_SCORE)} ומעלה."]
+        lines += [RLM + (f"אין היום איתותים עם ציון {ltr(MIN_SCORE)} ומעלה." if MIN_SCORE > 0
+                         else "אין היום איתותים שעברו את הסינון (דוחות רבעוניים קרובים, ניירות מתוחים).")]
         if best:
             lines += [RLM + f"הציון הגבוה ביותר היום: {ltr(best['score'])} ({ltr(best['ticker'])})"]
         lines += [""]
@@ -1551,7 +1708,15 @@ def main():
         print("מצב שוק חלש: " + ", ".join(regime_notes))
     shortlist.sort(key=lambda x: x["score"], reverse=True)
     best = shortlist[0] if shortlist else None
-    ranked = [p for p in shortlist if p["score"] >= MIN_SCORE]
+    print(f"דוחות רבעוניים: תאריך ידוע ל-{EARNINGS_STATS['known']} מניות, לא ידוע ל-{EARNINGS_STATS['unknown']}, "
+          f"בטווח {EARNINGS_BLOCK_DAYS} ימים: {EARNINGS_STATS['soon']}.")
+    near = [p["ticker"] for p in shortlist if p.get("earnings_soon")]
+    if near:
+        print("דולגו בגלל דוחות קרובים: " + ", ".join(near))
+    stretched = [f"{p['ticker']} (RSI {p['rsi']:.0f})" for p in shortlist if p.get("overextended")]
+    if stretched:
+        print("דולגו בגלל מתיחות (רדיפה אחרי מחיר): " + ", ".join(stretched))
+    ranked = [p for p in shortlist if p["score"] >= MIN_SCORE and not p.get("earnings_soon") and not p.get("overextended")]
     top = pick_diversified(ranked, themes, DASHBOARD_TOP)
 
     # מעקב ביצועים: כשל כאן לא עוצר את הדשבורד וההתראה
@@ -1560,7 +1725,7 @@ def main():
         log = load_log()
         retire_old(log)
         evaluate_open(log)
-        log_signals(log, shortlist, {p["ticker"] for p in top}, datetime.utcnow().strftime("%Y-%m-%d"))
+        log_signals(log, top, themes, datetime.utcnow().strftime("%Y-%m-%d"))
         save_log(log)
         perf_html, perf_line = build_perf(log)
     except Exception as e:
