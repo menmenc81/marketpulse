@@ -2580,5 +2580,31 @@
 "shown": true,
 "status": "open",
 "v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "TEVA",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 44,
+"entry": 44.5,
+"stop": 40.5571,
+"target": 52.3857,
+"comps": {
+"price": 40.5,
+"tech": 60.0,
+"analyst": 58.9,
+"news": 30.0
+},
+"n_sources": 3,
+"discount_pct": 6,
+"earnings_days": 74,
+"rsi": 73.8,
+"ext_atr": 2.21,
+"position_pct": 11.3,
+"cluster": "TEVA|buy",
+"shown": true,
+"status": "open",
+"v": 4
 }
 ]
