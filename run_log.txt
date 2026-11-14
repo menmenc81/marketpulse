@@ -11,8 +11,8 @@
 כותרות חדשות: נמצאו ל-36 מתוך 40 מועמדים (yfinance: 36, RSS: 0).
 ניתוח AI הושלם עבור 36 ניירות ערך.
 דוחות רבעוניים: תאריך ידוע ל-12 מניות, לא ידוע ל-6, בטווח 7 ימים: 0.
-דולגו בגלל מתיחות (רדיפה אחרי מחיר): BTC-USD (RSI 24), DOGE-USD (RSI 20), ETH-USD (RSI 25), XRP-USD (RSI 14), SOL-USD (RSI 15), KO (RSI 77), BNB-USD (RSI 22), TEVA.TA (RSI 80), BRK-B (RSI 79), ADA-USD (RSI 23), COST (RSI 74), LINK-USD (RSI 20)
+דולגו בגלל מתיחות (רדיפה אחרי מחיר): BTC-USD (RSI 23), DOGE-USD (RSI 20), ETH-USD (RSI 25), XRP-USD (RSI 14), SOL-USD (RSI 15), BNB-USD (RSI 22), ADA-USD (RSI 22), LINK-USD (RSI 20)
 מעקב: 0 איתותים נסגרו בריצה זו.
-נרשמו 1 איתותים חדשים למעקב.
+נרשמו 2 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.

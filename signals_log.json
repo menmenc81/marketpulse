@@ -2606,5 +2606,59 @@
 "shown": true,
 "status": "open",
 "v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "WFC",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 40,
+"entry": 86.05,
+"stop": 79.0362,
+"target": 105.3551,
+"comps": {
+"price": 19.1,
+"tech": 40.0,
+"analyst": 56.0,
+"news": 15.0,
+"theme": 80.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 61,
+"rsi": 64.5,
+"ext_atr": 1.07,
+"position_pct": 12.3,
+"cluster": "rates_high|buy",
+"shown": true,
+"status": "open",
+"v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "XLE",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 37,
+"entry": 64.96,
+"stop": 55.045,
+"target": 79.8325,
+"comps": {
+"price": 24.9,
+"tech": 0.0,
+"wyckoff": 75.0,
+"news": 15.0,
+"theme": 100.0
+},
+"n_sources": 3,
+"discount_pct": 10,
+"earnings_days": null,
+"rsi": 34.4,
+"ext_atr": -0.71,
+"position_pct": 6.6,
+"cluster": "war_escalation|buy",
+"shown": true,
+"status": "open",
+"v": 4
 }
 ]
