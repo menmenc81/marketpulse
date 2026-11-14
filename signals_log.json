@@ -475,7 +475,7 @@
 "stop": 186.6816,
 "target": 226.41,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -488,7 +488,7 @@
 "stop": 1272.8156,
 "target": 1634.6266,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -518,7 +518,7 @@
 "stop": 122.7093,
 "target": 104.0611,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -531,7 +531,7 @@
 "stop": 174.8307,
 "target": 202.2011,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -561,7 +561,7 @@
 "stop": 156.2264,
 "target": 192.3604,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -591,7 +591,7 @@
 "stop": 72.6364,
 "target": 88.8171,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -638,7 +638,7 @@
 "stop": 2034.9286,
 "target": 1467.6071,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -651,7 +651,7 @@
 "stop": 70774.2857,
 "target": 48081.4286,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -681,7 +681,7 @@
 "stop": 276.2676,
 "target": 332.1348,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -745,7 +745,7 @@
 "stop": 167.3936,
 "target": 89.1097,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -758,7 +758,7 @@
 "stop": 718.5127,
 "target": 473.424,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -771,7 +771,7 @@
 "stop": 86.3379,
 "target": 34.8932,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -784,7 +784,7 @@
 "stop": 131.9293,
 "target": 64.9061,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -797,7 +797,7 @@
 "stop": 430.3872,
 "target": 527.5,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -810,7 +810,7 @@
 "stop": 721.6929,
 "target": 587.7107,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -840,7 +840,7 @@
 "stop": 3630.2143,
 "target": 2846.5714,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -853,7 +853,7 @@
 "stop": 3695.5714,
 "target": 2793.0,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -866,7 +866,7 @@
 "stop": 188.89,
 "target": 136.87,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -879,7 +879,7 @@
 "stop": 312.3664,
 "target": 214.7871,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -892,7 +892,7 @@
 "stop": 432.6435,
 "target": 534.3629,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -905,7 +905,7 @@
 "stop": 269.3306,
 "target": 348.1041,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -918,7 +918,7 @@
 "stop": 602.7429,
 "target": 708.5442,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -931,7 +931,7 @@
 "stop": 29743.5714,
 "target": 19862.8571,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -944,7 +944,7 @@
 "stop": 401.9022,
 "target": 472.7257,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -957,7 +957,7 @@
 "stop": 90.2779,
 "target": 106.9343,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -970,7 +970,7 @@
 "stop": 61.8629,
 "target": 73.1557,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -983,7 +983,7 @@
 "stop": 86.2979,
 "target": 99.88,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -996,7 +996,7 @@
 "stop": 3099.5,
 "target": 2006.0,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1009,7 +1009,7 @@
 "stop": 189.7986,
 "target": 150.8521,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1022,7 +1022,7 @@
 "stop": 983.935,
 "target": 1153.7802,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1035,7 +1035,7 @@
 "stop": 119.3693,
 "target": 142.65,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1048,7 +1048,7 @@
 "stop": 144.9743,
 "target": 185.1914,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1061,7 +1061,7 @@
 "stop": 147.1322,
 "target": 178.5357,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1074,7 +1074,7 @@
 "stop": 54.4752,
 "target": 67.3896,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1087,7 +1087,7 @@
 "stop": 3245.1429,
 "target": 3684.4286,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1100,7 +1100,7 @@
 "stop": 1537.5,
 "target": 1191.0,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1113,7 +1113,7 @@
 "stop": 270.2172,
 "target": 107.8656,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1126,7 +1126,7 @@
 "stop": 108.2436,
 "target": 126.0529,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1156,7 +1156,7 @@
 "stop": 153.5717,
 "target": 170.5425,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1169,7 +1169,7 @@
 "stop": 154.9574,
 "target": 172.7139,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1182,7 +1182,7 @@
 "stop": 528.0451,
 "target": 717.35,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1212,7 +1212,7 @@
 "stop": 537.0441,
 "target": 603.7714,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1242,7 +1242,7 @@
 "stop": 1326.2857,
 "target": 1529.8571,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1289,7 +1289,7 @@
 "stop": 169.3189,
 "target": 89.0723,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1319,7 +1319,7 @@
 "stop": 1137.7643,
 "target": 1354.2785,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1332,7 +1332,7 @@
 "stop": 433.4143,
 "target": 572.51,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1345,7 +1345,7 @@
 "stop": 177.1671,
 "target": 219.1243,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1358,7 +1358,7 @@
 "stop": 82.7521,
 "target": 99.3235,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1371,7 +1371,7 @@
 "stop": 303.9264,
 "target": 411.0971,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1384,7 +1384,7 @@
 "stop": 280.7098,
 "target": 352.0243,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1397,7 +1397,7 @@
 "stop": 404.0918,
 "target": 239.02,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1410,7 +1410,7 @@
 "stop": 83.0725,
 "target": 58.2662,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1423,7 +1423,7 @@
 "stop": 696.31,
 "target": 548.53,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1436,7 +1436,7 @@
 "stop": 765.9165,
 "target": 683.6253,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1449,7 +1449,7 @@
 "stop": 375.775,
 "target": 337.6375,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1462,7 +1462,7 @@
 "stop": 172.0636,
 "target": 143.2829,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1475,7 +1475,7 @@
 "stop": 157.4143,
 "target": 139.3115,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1488,7 +1488,7 @@
 "stop": 39.5264,
 "target": 34.1104,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1518,7 +1518,7 @@
 "stop": 92.73,
 "target": 79.32,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1548,7 +1548,7 @@
 "stop": 374.7343,
 "target": 210.45,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1561,7 +1561,7 @@
 "stop": 260.5783,
 "target": 130.4434,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1591,7 +1591,7 @@
 "stop": 317.0191,
 "target": 198.3214,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1604,7 +1604,7 @@
 "stop": 170.0072,
 "target": 229.9556,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1617,7 +1617,7 @@
 "stop": 49.0214,
 "target": 54.6271,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1647,7 +1647,7 @@
 "stop": 1.3152,
 "target": 0.8783,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1660,7 +1660,7 @@
 "stop": 26.875,
 "target": 24.58,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1673,7 +1673,7 @@
 "stop": 256.7778,
 "target": 316.0043,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1686,7 +1686,7 @@
 "stop": 165.6343,
 "target": 73.0114,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1699,7 +1699,7 @@
 "stop": 161.0248,
 "target": 251.1006,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1712,7 +1712,7 @@
 "stop": 2779.7857,
 "target": 3385.8571,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1725,7 +1725,7 @@
 "stop": 319.008,
 "target": 432.5679,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1738,7 +1738,7 @@
 "stop": 293.4471,
 "target": 395.4114,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1751,7 +1751,7 @@
 "stop": 0.0788,
 "target": 0.0533,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1764,7 +1764,7 @@
 "stop": 12335.0,
 "target": 15810.0,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1777,7 +1777,7 @@
 "stop": 39.9379,
 "target": 54.0432,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1790,7 +1790,7 @@
 "stop": 6957.4286,
 "target": 8594.1429,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1803,7 +1803,7 @@
 "stop": 155.4238,
 "target": 256.2779,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1816,7 +1816,7 @@
 "stop": 7070.4286,
 "target": 8716.1429,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1829,7 +1829,7 @@
 "stop": 39.1268,
 "target": 50.6564,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1842,7 +1842,7 @@
 "stop": 655.4325,
 "target": 854.0251,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1855,7 +1855,7 @@
 "stop": 3137.9821,
 "target": 3946.4286,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1868,7 +1868,7 @@
 "stop": 8593.8571,
 "target": 11908.0,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1881,7 +1881,7 @@
 "stop": 48.8575,
 "target": 57.32,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1894,7 +1894,7 @@
 "stop": 210.98,
 "target": 271.4103,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1941,7 +1941,7 @@
 "stop": 2368.4278,
 "target": 1541.1021,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1954,7 +1954,7 @@
 "stop": 262.2436,
 "target": 318.87,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1967,7 +1967,7 @@
 "stop": 205.025,
 "target": 125.96,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1980,7 +1980,7 @@
 "stop": 37155.0,
 "target": 25870.0,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -1993,7 +1993,7 @@
 "stop": 542.8767,
 "target": 789.2782,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2006,7 +2006,7 @@
 "stop": 211.6321,
 "target": 165.3518,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2019,7 +2019,7 @@
 "stop": 94127.1429,
 "target": 140155.7143,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2032,7 +2032,7 @@
 "stop": 238.8407,
 "target": 318.9139,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2045,7 +2045,7 @@
 "stop": 391.437,
 "target": 771.1228,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2058,7 +2058,7 @@
 "stop": 9.3829,
 "target": 12.4943,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2071,7 +2071,7 @@
 "stop": 66.6261,
 "target": 84.1991,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2084,7 +2084,7 @@
 "stop": 31467.5,
 "target": 41180.0,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2097,7 +2097,7 @@
 "stop": 131.3421,
 "target": 220.3457,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2110,7 +2110,7 @@
 "stop": 291.6293,
 "target": 442.38,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2123,7 +2123,7 @@
 "stop": 250.4493,
 "target": 328.8714,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2136,7 +2136,7 @@
 "stop": 22.3862,
 "target": 21.6477,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2149,7 +2149,7 @@
 "stop": 82.5982,
 "target": 76.6443,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2162,7 +2162,7 @@
 "stop": 21.4923,
 "target": 24.0443,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2175,7 +2175,7 @@
 "stop": 245.82,
 "target": 453.36,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2188,7 +2188,7 @@
 "stop": 96.842,
 "target": 90.8912,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2201,7 +2201,7 @@
 "stop": 59.9821,
 "target": 74.1186,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2214,7 +2214,7 @@
 "stop": 79403.9509,
 "target": 62226.4609,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2227,7 +2227,7 @@
 "stop": 45.5239,
 "target": 40.8544,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2240,7 +2240,7 @@
 "stop": 326.8836,
 "target": 413.1229,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2253,7 +2253,7 @@
 "stop": 11.693,
 "target": 6.452,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2266,7 +2266,7 @@
 "stop": 14.7036,
 "target": 11.6857,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2279,7 +2279,7 @@
 "stop": 115.1195,
 "target": 111.3109,
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2292,7 +2292,7 @@
 "stop": 41924.8214,
 "target": 73664.2857,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2305,7 +2305,7 @@
 "stop": 91.608,
 "target": 87.4141,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2318,7 +2318,7 @@
 "stop": 106.8818,
 "target": 182.9871,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2331,7 +2331,7 @@
 "stop": 81.5211,
 "target": 80.3779,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2344,7 +2344,7 @@
 "stop": 77.8208,
 "target": 76.1383,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2357,7 +2357,7 @@
 "stop": 71.4784,
 "target": 68.9932,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2370,7 +2370,7 @@
 "stop": 96.3978,
 "target": 92.8644,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2383,7 +2383,7 @@
 "stop": 104.79,
 "target": 99.57,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2396,7 +2396,7 @@
 "stop": 146.69,
 "target": 238.04,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2409,7 +2409,7 @@
 "stop": 88.0902,
 "target": 51.4896,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2422,7 +2422,7 @@
 "stop": 680.3958,
 "target": 524.7063,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2435,7 +2435,7 @@
 "stop": 105.0127,
 "target": 100.7146,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
 },
 {
@@ -2448,7 +2448,137 @@
 "stop": 17.9854,
 "target": 9.5297,
 "shown": false,
-"status": "open",
+"status": "legacy",
 "v": 2
+},
+{
+"date": "2026-11-14",
+"ticker": "AMD",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 59,
+"entry": 534.06,
+"stop": 390.4115,
+"target": 821.3571,
+"comps": {
+"price": 41.3,
+"tech": 60.0,
+"analyst": 80.6,
+"news": 55.0,
+"theme": 60.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 80,
+"rsi": 50.3,
+"ext_atr": 0.31,
+"position_pct": 3.7,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "ANET",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 52,
+"entry": 197.29,
+"stop": 157.6868,
+"target": 276.475,
+"comps": {
+"price": 41.1,
+"tech": 40.0,
+"analyst": 92.5,
+"news": 20.0,
+"theme": 60.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": null,
+"rsi": 58.0,
+"ext_atr": 1.27,
+"position_pct": 5.0,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "TLH",
+"asset_class": "אגרות חוב",
+"direction": "sell",
+"score": 46,
+"entry": 93.58,
+"stop": 95.7845,
+"target": 89.1709,
+"comps": {
+"price": -67.4,
+"tech": -60.0,
+"wyckoff": 25.0,
+"theme": -100.0
+},
+"n_sources": 2,
+"discount_pct": 18,
+"earnings_days": null,
+"rsi": 35.7,
+"ext_atr": -1.98,
+"position_pct": 25.0,
+"cluster": "rates_high|sell",
+"shown": true,
+"status": "open",
+"v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "IEF",
+"asset_class": "אגרות חוב",
+"direction": "sell",
+"score": 45,
+"entry": 90.04,
+"stop": 91.4574,
+"target": 87.2052,
+"comps": {
+"price": -46.4,
+"tech": -60.0,
+"news": -10.0,
+"theme": -100.0
+},
+"n_sources": 3,
+"discount_pct": 10,
+"earnings_days": null,
+"rsi": 41.0,
+"ext_atr": -1.82,
+"position_pct": 25.0,
+"cluster": "rates_high|sell",
+"shown": true,
+"status": "open",
+"v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "IEI",
+"asset_class": "אגרות חוב",
+"direction": "sell",
+"score": 44,
+"entry": 113.8,
+"stop": 115.0847,
+"target": 111.2307,
+"comps": {
+"price": -56.6,
+"tech": -60.0
+},
+"n_sources": 1,
+"discount_pct": 24,
+"earnings_days": null,
+"rsi": 43.4,
+"ext_atr": -1.52,
+"position_pct": 25.0,
+"cluster": "IEI|sell",
+"shown": true,
+"status": "open",
+"v": 4
 }
 ]
