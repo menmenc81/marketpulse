@@ -2475,7 +2475,7 @@
 "position_pct": 3.7,
 "cluster": "ai_boom|buy",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2502,7 +2502,7 @@
 "position_pct": 5.0,
 "cluster": "ai_boom|buy",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2528,7 +2528,7 @@
 "position_pct": 25.0,
 "cluster": "rates_high|sell",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2554,7 +2554,7 @@
 "position_pct": 25.0,
 "cluster": "rates_high|sell",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2578,7 +2578,7 @@
 "position_pct": 25.0,
 "cluster": "IEI|sell",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2604,7 +2604,7 @@
 "position_pct": 11.3,
 "cluster": "TEVA|buy",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2631,7 +2631,7 @@
 "position_pct": 12.3,
 "cluster": "rates_high|buy",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
 },
 {
@@ -2658,7 +2658,141 @@
 "position_pct": 6.6,
 "cluster": "war_escalation|buy",
 "shown": true,
-"status": "open",
+"status": "legacy",
 "v": 4
+},
+{
+"date": "2026-11-14",
+"ticker": "AMD",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 59,
+"entry": 534.06,
+"stop": 246.7629,
+"target": 965.0056,
+"comps": {
+"price": 41.3,
+"tech": 60.0,
+"analyst": 80.6,
+"news": 55.0,
+"theme": 55.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 80,
+"rsi": 50.3,
+"ext_atr": 0.31,
+"position_pct": 1.9,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-14",
+"ticker": "ANET",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 53,
+"entry": 197.29,
+"stop": 118.0836,
+"target": 316.0996,
+"comps": {
+"price": 41.1,
+"tech": 40.0,
+"analyst": 92.5,
+"news": 25.0,
+"theme": 55.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": null,
+"rsi": 58.0,
+"ext_atr": 1.27,
+"position_pct": 2.5,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-14",
+"ticker": "TEVA",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 43,
+"entry": 44.5,
+"stop": 36.6143,
+"target": 56.3286,
+"comps": {
+"price": 40.5,
+"tech": 60.0,
+"analyst": 58.9,
+"news": 25.0
+},
+"n_sources": 3,
+"discount_pct": 6,
+"earnings_days": 74,
+"rsi": 73.8,
+"ext_atr": 2.21,
+"position_pct": 5.6,
+"cluster": "TEVA|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-14",
+"ticker": "WFC",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 38,
+"entry": 86.05,
+"stop": 79.0362,
+"target": 105.3551,
+"comps": {
+"price": 19.1,
+"tech": 40.0,
+"analyst": 56.0,
+"news": 20.0,
+"theme": 60.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 61,
+"rsi": 64.5,
+"ext_atr": 1.07,
+"position_pct": 12.3,
+"cluster": "rates_high|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-14",
+"ticker": "XLE",
+"asset_class": "קרנות סל ומדדים",
+"direction": "buy",
+"score": 36,
+"entry": 64.96,
+"stop": 55.045,
+"target": 79.8325,
+"comps": {
+"price": 24.9,
+"tech": 0.0,
+"wyckoff": 75.0,
+"news": 10.0,
+"theme": 100.0
+},
+"n_sources": 3,
+"discount_pct": 10,
+"earnings_days": null,
+"rsi": 34.4,
+"ext_atr": -0.71,
+"position_pct": 6.6,
+"cluster": "war_escalation|buy",
+"shown": true,
+"status": "open",
+"v": 5
 }
 ]
