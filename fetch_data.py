@@ -36,6 +36,9 @@ MIN_RR = 1.5                  # יחס סיכוי/סיכון מינימלי לי
 MAX_RR = 4.0                  # יחס סיכוי/סיכון מקסימלי ליעד
 MAX_TARGET_ATR = 6.0          # תקרת מרחק היעד, בכפולות של ATR (אופק של כמה שבועות)
 RISK_PER_TRADE_PCT = 1.0      # כמה אחוז מהתיק מסכנים בכל איתות (ההפסד אם הסטופ נפגע). משנים כאן
+CLASS_MAX_POSITION = {"אגרות חוב": 10.0, "קריפטו": 5.0, "סחורות": 15.0}   # תקרות לפי סוג נכס (סטופ צמוד לא אומר סיכון נמוך)
+TOTAL_EXPOSURE_CAP_PCT = 100.0   # סך הפוזיציות המוצעות באותו יום; אם עוברים אותו, כולן מוקטנות באופן יחסי
+CORRELATED_CLASSES = ("אגרות חוב", "קריפטו")   # נכסים שנעים יחד: נחשבים קבוצה אחת בדירוג ובמעקב
 MAX_POSITION_PCT = 25.0       # תקרה לגודל פוזיציה מוצע (באחוזי תיק), גם כשהסטופ צמוד מאוד
 RSI_BUY_MAX = 75              # לא מציגים קנייה כשה-RSI בגובה זה ומעלה (הנייר "מתוח")
 RSI_SELL_MIN = 25             # לא מציגים מכירה כשה-RSI בגובה זה ומטה (הנייר כבר נמכר חזק)
@@ -985,7 +988,8 @@ def finalize(p):
 
     # גודל פוזיציה מוצע: ההפסד עד הסטופ יהיה RISK_PER_TRADE_PCT מהתיק (סטופ רחב = פוזיציה קטנה)
     stop_dist_pct = abs(stop - last) / last * 100
-    p["position_pct"] = round(min(MAX_POSITION_PCT, RISK_PER_TRADE_PCT / stop_dist_pct * 100), 1) if stop_dist_pct > 0 else None
+    cap = min(MAX_POSITION_PCT, CLASS_MAX_POSITION.get(p["asset_class"], MAX_POSITION_PCT))
+    p["position_pct"] = round(min(cap, RISK_PER_TRADE_PCT / stop_dist_pct * 100), 1) if stop_dist_pct > 0 else None
 
     # "מתיחות": לא רודפים אחרי תנועה שכבר קרתה (קנייה אחרי עלייה חדה, מכירה אחרי ירידה חדה)
     rsi, ext = p.get("rsi"), p.get("ext_atr")
@@ -1026,7 +1030,7 @@ MAX_PER_THEME = 2              # מקסימום איתותים באותו כיו
 LOG_PATH = "signals_log.json"
 # גרסת המודל. כשמשנים את דרך חישוב הציון משמעותית, מעלים את המספר: איתותים פתוחים מגרסה ישנה
 # מסומנים "legacy" (לא נבדקים ולא נספרים בסטטיסטיקה), והמעקב מתחיל מחדש לפי המודל הנוכחי.
-MODEL_VERSION = 4   # 4: סינון מתיחות (RSI/ATR) וגודל פוזיציה. 3: מתעדים רק איתותים שהוצגו, כולל רכיבי הציון, מעקב לפי מחיר נוכחי והשוואה ל-S&P 500
+MODEL_VERSION = 4   # (4 כולל גם תקרות חשיפה לפי סוג נכס) 4: סינון מתיחות (RSI/ATR) וגודל פוזיציה. 3: מתעדים רק איתותים שהוצגו, כולל רכיבי הציון, מעקב לפי מחיר נוכחי והשוואה ל-S&P 500
 TRACK_HORIZON_DAYS = 30        # אחרי כמה ימי מסחר איתות שלא הגיע ליעד/סטופ נסגר
 MIN_CLOSED_FOR_STATS = 30      # מתחת לכמות זו אין להסיק מסקנות מהסטטיסטיקה
 BUCKETS = [("מתחת ל-40", 0, 39), ("40 עד 49", 40, 49), ("50 עד 59", 50, 59), ("60 ומעלה", 60, 100)]
@@ -1069,10 +1073,17 @@ def theme_group(p, themes):
     return best
 
 
+def exposure_group(p, themes):
+    # קבוצת חשיפה: אג"ח וקריפטו נעים יחד (קבוצה לפי סוג נכס), אחרת לפי תמת עולם פעילה
+    if p["asset_class"] in CORRELATED_CLASSES:
+        return p["asset_class"]
+    return theme_group(p, themes)
+
+
 def pick_diversified(ranked, themes, n):
     counts, out = {}, []
     for p in ranked:
-        g = theme_group(p, themes)
+        g = exposure_group(p, themes)
         if g is not None:
             key = (g, p["direction"])
             if counts.get(key, 0) >= MAX_PER_THEME:
@@ -1117,7 +1128,7 @@ def log_signals(log, signals, themes, today):
         key = (p["ticker"], p["direction"])
         if key in open_keys:
             continue
-        g = theme_group(p, themes)
+        g = exposure_group(p, themes)
         log.append({
             "date": today, "ticker": p["ticker"], "asset_class": p["asset_class"],
             "direction": p["direction"], "score": p["score"],
@@ -1350,7 +1361,9 @@ def build_pick(rank, p):
         note += '<div class="note">איתות שלילי - רלוונטי למי שמחזיק את הנייר, או לפוזיציית שורט.</div>'
     if p.get("position_pct") is not None:
         note += (f'<div class="note">גודל הפוזיציה מחושב כך שהפסד עד הסטופ יהיה {RISK_PER_TRADE_PCT:g}% מהתיק '
-                 f'(תקרה {MAX_POSITION_PCT:g}%). סטופ רחב מחייב פוזיציה קטנה.</div>')
+                 f'(תקרה {MAX_POSITION_PCT:g}%, ונמוכה יותר באג"ח וקריפטו). סטופ רחב מחייב פוזיציה קטנה.</div>')
+        if p.get("position_note"):
+            note += f'<div class="note warn">{esc(p["position_note"])}</div>'
     if p.get("regime_note"):
         note += f'<div class="note warn">{esc(p["regime_note"])}</div>'
     if p.get("analyst_conflict"):
@@ -1603,6 +1616,8 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
         lines.append(RLM + f"יעד (לימיט): {ltr(p['target'])} ({ltr(p['target_pct'])})")
         lines.append(RLM + f"סטופ לוס: {ltr(p['stop'])} ({ltr(p['stop_pct'])})")
         lines.append(RLM + f"סיכוי/סיכון: {ltr(p['rr_text'])}")
+        if p.get("position_note"):
+            lines.append(RLM + "שים לב: " + p["position_note"])
         if p.get("position_pct") is not None:
             lines.append(RLM + f"פוזיציה מוצעת: {ltr(str(p['position_pct']) + '%')} מהתיק (הפסד עד הסטופ: {ltr(f'{RISK_PER_TRADE_PCT:g}%')} מהתיק)")
         if p["reasons"]:
@@ -1718,6 +1733,14 @@ def main():
         print("דולגו בגלל מתיחות (רדיפה אחרי מחיר): " + ", ".join(stretched))
     ranked = [p for p in shortlist if p["score"] >= MIN_SCORE and not p.get("earnings_soon") and not p.get("overextended")]
     top = pick_diversified(ranked, themes, DASHBOARD_TOP)
+    total_pos = sum(p.get("position_pct") or 0 for p in top)
+    if total_pos > TOTAL_EXPOSURE_CAP_PCT:
+        factor = TOTAL_EXPOSURE_CAP_PCT / total_pos
+        for p in top:
+            if p.get("position_pct"):
+                p["position_pct"] = round(p["position_pct"] * factor, 1)
+                p["position_note"] = (f"הוקטן כדי שסך הפוזיציות המוצעות היום לא יעלה על {TOTAL_EXPOSURE_CAP_PCT:g}% מהתיק.")
+        print(f"סך הפוזיציות המוצעות ({total_pos:.0f}%) עבר את התקרה, כולן הוקטנו פי {factor:.2f}.")
 
     # מעקב ביצועים: כשל כאן לא עוצר את הדשבורד וההתראה
     perf_html, perf_line = "", ""
