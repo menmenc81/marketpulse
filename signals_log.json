@@ -1302,8 +1302,12 @@
 "stop": 33.2293,
 "target": 36.6311,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 33.2293,
+"ret": -3.93,
+"closed": "2026-11-13",
+"days": 6
 },
 {
 "date": "2026-11-05",
@@ -1626,8 +1630,12 @@
 "stop": 169.7493,
 "target": 248.2261,
 "shown": true,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 169.7493,
+"ret": -15.61,
+"closed": "2026-11-13",
+"days": 5
 },
 {
 "date": "2026-11-07",
@@ -1899,8 +1907,12 @@
 "stop": 103.7029,
 "target": 107.5343,
 "shown": false,
-"status": "open",
-"v": 2
+"status": "stop",
+"v": 2,
+"exit": 103.7029,
+"ret": -1.22,
+"closed": "2026-11-13",
+"days": 3
 },
 {
 "date": "2026-11-10",
@@ -2383,6 +2395,58 @@
 "entry": 177.14,
 "stop": 146.69,
 "target": 238.04,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-14",
+"ticker": "SOL-USD",
+"asset_class": "קריפטו",
+"direction": "sell",
+"score": 42,
+"entry": 75.89,
+"stop": 88.0902,
+"target": 51.4896,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-14",
+"ticker": "BNB-USD",
+"asset_class": "קריפטו",
+"direction": "sell",
+"score": 31,
+"entry": 618.12,
+"stop": 680.3958,
+"target": 524.7063,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-14",
+"ticker": "MUB",
+"asset_class": "אגרות חוב",
+"direction": "sell",
+"score": 28,
+"entry": 103.58,
+"stop": 105.0127,
+"target": 100.7146,
+"shown": false,
+"status": "open",
+"v": 2
+},
+{
+"date": "2026-11-14",
+"ticker": "SOFI",
+"asset_class": "מניות ארצות הברית",
+"direction": "sell",
+"score": 2,
+"entry": 15.42,
+"stop": 17.9854,
+"target": 9.5297,
 "shown": false,
 "status": "open",
 "v": 2
