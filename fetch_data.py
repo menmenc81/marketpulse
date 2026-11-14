@@ -541,92 +541,97 @@ def analyze_price(ticker, asset_class):
         if hist is None or hist.empty or "Close" not in hist.columns:
             return None
         hist = hist.dropna(subset=["Close"])
-        if len(hist) < 30:
-            return None
-
-        closes = hist["Close"]
-        last = float(closes.iloc[-1])
-        if last <= 0:
-            return None
-
-        daily = closes.pct_change().dropna()
-        vol = float(daily.std()) if len(daily) > 5 else 0.01
-        if not vol or math.isnan(vol):
-            vol = 0.01
-
-        ret5 = last / float(closes.iloc[-6]) - 1
-        mom_z = ret5 / (vol * math.sqrt(5))
-        momentum_score = clamp(50 + mom_z * 20, 0, 100)
-
-        ma = float(closes.iloc[-50:].mean())
-        trend_z = ((last - ma) / ma) / (vol * math.sqrt(25))
-        trend_score = clamp(50 + trend_z * 20, 0, 100)
-
-        volume_ratio = 1.0
-        if "Volume" in hist.columns:
-            volumes = hist["Volume"]
-            idx = -2 if ticker.endswith("-USD") else -1
-            avg_vol = float(volumes.iloc[-21:-1].mean())
-            if avg_vol > 0:
-                volume_ratio = float(volumes.iloc[idx]) / avg_vol
-
-        directional = (momentum_score + trend_score) / 2 - 50
-        multiplier = 0.5 + 0.5 * clamp(volume_ratio, 0.5, 2.0)
-        price_dir = clamp(directional * multiplier * 2, -100, 100)
-
-        prev_close = closes.shift(1)
-        true_range = pd.concat(
-            [
-                hist["High"] - hist["Low"],
-                (hist["High"] - prev_close).abs(),
-                (hist["Low"] - prev_close).abs(),
-            ],
-            axis=1,
-        ).max(axis=1)
-        atr = float(true_range.iloc[-14:].mean())
-        if not atr or math.isnan(atr):
-            atr = last * vol
-
-        tech_dir, tech_flags = technical_signals(closes)
-        symbol, divisor = currency_of(ticker)
-        sma20 = float(closes.iloc[-20:].mean())
-        ext_atr = (last - sma20) / atr if atr > 0 else 0.0    # כמה ATR המחיר רחוק מממוצע 20 יום
-        rsi = rsi_value(closes)
-
-        wy = wyckoff_analysis(hist)
-        win10 = min(10, len(hist))
-
-        return {
-            "ticker": ticker,
-            "name": ticker,
-            "asset_class": asset_class,
-            "last": last,
-            "atr": atr,
-            "rsi": rsi,
-            "ext_atr": ext_atr,
-            "symbol": symbol,
-            "divisor": divisor,
-            "price_dir": price_dir,
-            "tech_dir": tech_dir,
-            "tech_flags": tech_flags,
-            "wy_dir": wy["dir"] if wy else None,
-            "wy_flags": wy["flags"] if wy else [],
-            "wy_range": wy["range"] if wy else None,
-            "swing_low": float(hist["Low"].iloc[-win10:].min()),
-            "swing_high": float(hist["High"].iloc[-win10:].max()),
-            "hi60": float(hist["High"].iloc[-60:].max()),
-            "lo60": float(hist["Low"].iloc[-60:].min()),
-            "theme_dir": None,
-            "theme_notes": [],
-            "analyst_dir": None,
-            "analyst_text": "",
-            "news_dir": None,
-            "news_summary": "",
-            "headlines": [],
-        }
+        return analyze_hist(hist, ticker, asset_class)
     except Exception as e:
         print(f"דילוג על {ticker}: {e}")
         return None
+
+
+def analyze_hist(hist, ticker, asset_class):
+    # ניתוח המחיר עצמו על טבלת היסטוריה נתונה (משמש גם את הבדיקה ההיסטורית ב-backtest.py)
+    if len(hist) < 30:
+        return None
+
+    closes = hist["Close"]
+    last = float(closes.iloc[-1])
+    if last <= 0:
+        return None
+
+    daily = closes.pct_change().dropna()
+    vol = float(daily.std()) if len(daily) > 5 else 0.01
+    if not vol or math.isnan(vol):
+        vol = 0.01
+
+    ret5 = last / float(closes.iloc[-6]) - 1
+    mom_z = ret5 / (vol * math.sqrt(5))
+    momentum_score = clamp(50 + mom_z * 20, 0, 100)
+
+    ma = float(closes.iloc[-50:].mean())
+    trend_z = ((last - ma) / ma) / (vol * math.sqrt(25))
+    trend_score = clamp(50 + trend_z * 20, 0, 100)
+
+    volume_ratio = 1.0
+    if "Volume" in hist.columns:
+        volumes = hist["Volume"]
+        idx = -2 if ticker.endswith("-USD") else -1
+        avg_vol = float(volumes.iloc[-21:-1].mean())
+        if avg_vol > 0:
+            volume_ratio = float(volumes.iloc[idx]) / avg_vol
+
+    directional = (momentum_score + trend_score) / 2 - 50
+    multiplier = 0.5 + 0.5 * clamp(volume_ratio, 0.5, 2.0)
+    price_dir = clamp(directional * multiplier * 2, -100, 100)
+
+    prev_close = closes.shift(1)
+    true_range = pd.concat(
+        [
+            hist["High"] - hist["Low"],
+            (hist["High"] - prev_close).abs(),
+            (hist["Low"] - prev_close).abs(),
+        ],
+        axis=1,
+    ).max(axis=1)
+    atr = float(true_range.iloc[-14:].mean())
+    if not atr or math.isnan(atr):
+        atr = last * vol
+
+    tech_dir, tech_flags = technical_signals(closes)
+    symbol, divisor = currency_of(ticker)
+    sma20 = float(closes.iloc[-20:].mean())
+    ext_atr = (last - sma20) / atr if atr > 0 else 0.0    # כמה ATR המחיר רחוק מממוצע 20 יום
+    rsi = rsi_value(closes)
+
+    wy = wyckoff_analysis(hist)
+    win10 = min(10, len(hist))
+
+    return {
+        "ticker": ticker,
+        "name": ticker,
+        "asset_class": asset_class,
+        "last": last,
+        "atr": atr,
+        "rsi": rsi,
+        "ext_atr": ext_atr,
+        "symbol": symbol,
+        "divisor": divisor,
+        "price_dir": price_dir,
+        "tech_dir": tech_dir,
+        "tech_flags": tech_flags,
+        "wy_dir": wy["dir"] if wy else None,
+        "wy_flags": wy["flags"] if wy else [],
+        "wy_range": wy["range"] if wy else None,
+        "swing_low": float(hist["Low"].iloc[-win10:].min()),
+        "swing_high": float(hist["High"].iloc[-win10:].max()),
+        "hi60": float(hist["High"].iloc[-60:].max()),
+        "lo60": float(hist["Low"].iloc[-60:].min()),
+        "theme_dir": None,
+        "theme_notes": [],
+        "analyst_dir": None,
+        "analyst_text": "",
+        "news_dir": None,
+        "news_summary": "",
+        "headlines": [],
+    }
 
 
 def available_components(p):
