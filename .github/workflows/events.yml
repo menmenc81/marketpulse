@@ -1,0 +1,27 @@
+name: events
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  events:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt pandas numpy
+      - shell: bash
+        run: |
+          mkdir -p backtest
+          python -u -W ignore backtest_events.py 2>&1 | tee backtest/events_log.txt
+      - if: always()
+        run: |
+          git config user.name "marketpulse-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add backtest
+          git commit -m "תוצאות בדיקת אירועים" || echo none
+          git pull --rebase
+          git push
