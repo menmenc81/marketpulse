@@ -1,0 +1,24 @@
+name: probe
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt pandas
+      - shell: bash
+        run: python -u probe_fundamentals.py 2>&1 | tee probe_result.txt
+      - if: always()
+        run: |
+          git config user.name "marketpulse-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add probe_result.txt
+          git commit -m "תוצאות בדיקת זמינות נתונים" || echo none
+          git pull --rebase
+          git push
