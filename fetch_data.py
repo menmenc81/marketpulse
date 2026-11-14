@@ -34,6 +34,9 @@ MIN_STOP_ATR = 1.0            # מרחק סטופ מינימלי, בכפולות
 MAX_STOP_ATR = 3.0            # מרחק סטופ מקסימלי, בכפולות של ATR
 MIN_RR = 1.5                  # יחס סיכוי/סיכון מינימלי ליעד
 MAX_RR = 4.0                  # יחס סיכוי/סיכון מקסימלי ליעד
+STOP_SCALE = 1.0              # מכפיל לרוחב הסטופ והיעד (נקבע לפי הבדיקה ההיסטורית)
+SELL_SIGNALS_ENABLED = False  # בדיקה היסטורית: לאיתותי מכירה אין יתרון, ולכן הם כבויים
+FILTER_OVEREXTENDED_BUY = False  # בדיקה היסטורית: קניות "מתוחות" דווקא הצליחו יותר, ולכן לא נפסלות
 MAX_TARGET_ATR = 6.0          # תקרת מרחק היעד, בכפולות של ATR (אופק של כמה שבועות)
 RISK_PER_TRADE_PCT = 1.0      # כמה אחוז מהתיק מסכנים בכל איתות (ההפסד אם הסטופ נפגע). משנים כאן
 CLASS_MAX_POSITION = {"אגרות חוב": 10.0, "קריפטו": 5.0, "סחורות": 15.0}   # תקרות לפי סוג נכס (סטופ צמוד לא אומר סיכון נמוך)
@@ -953,10 +956,11 @@ def compute_levels(p, direction):
             dist = last - p["lo60"]
         else:
             dist, open_space = 2 * risk, True
+    risk *= STOP_SCALE
     reward = clamp(dist, MIN_RR * risk, MAX_RR * risk)
-    capped = reward > MAX_TARGET_ATR * atr
+    capped = reward > MAX_TARGET_ATR * STOP_SCALE * atr
     if capped:
-        reward = MAX_TARGET_ATR * atr
+        reward = MAX_TARGET_ATR * STOP_SCALE * atr
     if open_space:
         note = "אין רמת מבנה קרובה בכיוון הרווח, ולכן היעד נקבע ליחס 1:2."
     elif capped:
@@ -1733,10 +1737,13 @@ def main():
     near = [p["ticker"] for p in shortlist if p.get("earnings_soon")]
     if near:
         print("דולגו בגלל דוחות קרובים: " + ", ".join(near))
-    stretched = [f"{p['ticker']} (RSI {p['rsi']:.0f})" for p in shortlist if p.get("overextended")]
+    stretched = [f"{p['ticker']} (RSI {p['rsi']:.0f})" for p in shortlist
+                 if p.get("overextended") and (p["direction"] == "sell" or FILTER_OVEREXTENDED_BUY)]
     if stretched:
         print("דולגו בגלל מתיחות (רדיפה אחרי מחיר): " + ", ".join(stretched))
-    ranked = [p for p in shortlist if p["score"] >= MIN_SCORE and not p.get("earnings_soon") and not p.get("overextended")]
+    ranked = [p for p in shortlist if p["score"] >= MIN_SCORE and not p.get("earnings_soon")
+              and not (p.get("overextended") and (p["direction"] == "sell" or FILTER_OVEREXTENDED_BUY))
+              and (p["direction"] == "buy" or SELL_SIGNALS_ENABLED)]
     top = pick_diversified(ranked, themes, DASHBOARD_TOP)
     total_pos = sum(p.get("position_pct") or 0 for p in top)
     if total_pos > TOTAL_EXPOSURE_CAP_PCT:

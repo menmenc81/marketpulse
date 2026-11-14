@@ -33,6 +33,7 @@ MAX_TICKERS = int(os.environ.get("BT_MAX_TICKERS", "0"))  # 0 = כל היקום;
 WINDOW = 252                                              # שנת מסחר, כמו הניתוח החי
 HORIZONS = (5, 10, 20)                                    # אופקי בדיקה בימי מסחר
 EXPIRY = fd.TRACK_HORIZON_DAYS                            # אורך סימולציית העסקה (30), כמו המעקב החי
+SCALES = (1.5, 2.0, 3.0)                                  # רוחב סטופ ויעד יחסית לנוכחי (רק קנייה)
 BANDS = [("0-19", 0, 20), ("20-39", 20, 40), ("40-59", 40, 60), ("60+", 60, 1000)]
 
 
@@ -113,6 +114,9 @@ def build_samples(universe, spy):
                         "rsi": round(p["rsi"], 1), "ext_atr": round(p["ext_atr"], 2),
                         "spy_below200": bool(spy.asof(day) < spy_sma200.asof(day)) if not math.isnan(spy_sma200.asof(day)) else False,
                     }
+                    # מומנטום: תשואת 12 חודשים פחות החודש האחרון, ו-6 חודשים פחות החודש האחרון
+                    row["mom12"] = round((closes[idx - 21] / closes[idx - 251] - 1) * 100, 2)
+                    row["mom6"] = round((closes[idx - 21] / closes[idx - 126] - 1) * 100, 2)
                     for hz in HORIZONS:
                         fut = dates[idx + hz]
                         row[f"fwd{hz}"] = round((closes[idx + hz] / closes[idx] - 1) * 100, 3)
@@ -125,6 +129,17 @@ def build_samples(universe, spy):
                         row[f"t{short}_ret"] = round(trade_return(entry, exit_px, d), 3)
                         row[f"t{short}_days"] = days
                         row[f"t{short}_stopdist"] = round(abs(stop - entry) / entry * 100, 2)
+                    try:
+                        for sc in SCALES:
+                            fd.STOP_SCALE = sc
+                            stop, target, rr, _n = fd.compute_levels(p, "buy")
+                            status, exit_px, days = simulate_trade(entry, stop, target, "buy", fh, fl, fc)
+                            k = str(sc).replace(".", "")
+                            row[f"sc{k}_status"] = status
+                            row[f"sc{k}_ret"] = round(trade_return(entry, exit_px, "buy"), 3)
+                            row[f"sc{k}_stopdist"] = round(abs(stop - entry) / entry * 100, 2)
+                    finally:
+                        fd.STOP_SCALE = 1.0
                     samples.append(row)
                     count += 1
                 except Exception as e:   # דגימה בעייתית אחת לא עוצרת את הבדיקה
@@ -177,6 +192,24 @@ def edge_row(name, g):
     }
 
 
+def edge_row_long(name, g):
+    # יתרון של קנייה בלבד (בלי תלות בכיוון האיתות): תשואה פחות הממוצע הכללי
+    if len(g) == 0:
+        return None
+    g = g.copy()
+    for hz in HORIZONS:
+        g[f"e{hz}"] = g[f"fwd{hz}"] - DF_MEAN[hz]
+    return {"קבוצה": name, "דגימות": int(len(g)),
+            "יתרון 5 ימים %": round(float(g["e5"].mean()), 3),
+            "יתרון 10 ימים %": round(float(g["e10"].mean()), 3),
+            "יתרון 20 ימים %": round(float(g["e20"].mean()), 3),
+            "t (10 ימים)": tstat_by_date(g, "e10", 10),
+            "אחוז עם יתרון חיובי (10 ימים)": round(float((g["e10"] > 0).mean() * 100), 1)}
+
+
+DF_MEAN = {}
+
+
 def trade_row(name, status, ret):
     n = len(status)
     if n == 0:
@@ -209,6 +242,8 @@ def per_date_ic(df, col, horizon):
 
 def analyze(df):
     df = add_edges(df)
+    for hz in HORIZONS:
+        DF_MEAN[hz] = float(df[f"fwd{hz}"].mean())
     res = {}
 
     res["כיוון"] = [r for r in (edge_row(d, df[df.direction == k]) for d, k in (("קנייה", "buy"), ("מכירה", "sell"))) if r]
@@ -269,6 +304,38 @@ def analyze(df):
         g = df[(df.strength >= lo) & (df.strength < hi)]
         trades.append(trade_row(f"בכיוון האיתות, חוזק {bname}", g.t_status, g.t_ret))
     res["סימולציית עסקאות (סטופ ויעד כמו במערכת, עד 30 ימים)"] = [r for r in trades if r]
+
+    # רוחב סטופ: עסקאות קנייה בלבד, על כל הדגימות ועל הדגימות עם איתות קנייה
+    rows = [trade_row("סטופ נוכחי (x1), תמיד קנייה", df.tb_status, df.tb_ret)]
+    for sc in SCALES:
+        k = str(sc).replace(".", "")
+        r = trade_row(f"סטופ x{sc}, תמיד קנייה", df[f"sc{k}_status"], df[f"sc{k}_ret"])
+        r["סטופ חציוני %"] = round(float(df[f"sc{k}_stopdist"].median()), 2)
+        rows.append(r)
+    res["רוחב סטופ (קנייה בלבד)"] = rows
+
+    # מומנטום: דירוג רוחבי בכל תאריך (אחוזון מבין כל הניירות באותו יום)
+    mom = []
+    for col, label in (("mom12", "מומנטום 12 חודשים"), ("mom6", "מומנטום 6 חודשים")):
+        d = df.copy()
+        d["pct"] = d.groupby("date")[col].rank(pct=True)
+        d["n_date"] = d.groupby("date")[col].transform("count")
+        d = d[d.n_date >= 50]
+        mom.append(edge_row_long(f"{label}: 20% העליונים (קנייה)", d[d.pct > 0.8]))
+        mom.append(edge_row_long(f"{label}: 20% התחתונים", d[d.pct <= 0.2]))
+        ic5, t5 = per_date_ic(d, col, 5); ic10, t10 = per_date_ic(d, col, 10); ic20, t20 = per_date_ic(d, col, 20)
+        mom.append({"קבוצה": f"{label}: IC (5/10/20 ימים)", "דגימות": int(len(d)),
+                    "יתרון 10 ימים %": f"{ic5} / {ic10} / {ic20}", "t (10 ימים)": f"{t5} / {t10} / {t20}"})
+        top = d[d.pct > 0.8]
+        for sc in (None,) + SCALES:
+            if sc is None:
+                mom.append(trade_row(f"{label}, 20% עליונים, עסקה עם סטופ x1", top.tb_status, top.tb_ret))
+            else:
+                k = str(sc).replace(".", "")
+                mom.append(trade_row(f"{label}, 20% עליונים, עסקה עם סטופ x{sc}", top[f"sc{k}_status"], top[f"sc{k}_ret"]))
+        for y in sorted(top.year.unique()):
+            mom.append(edge_row_long(f"{label}, 20% עליונים, {y}", top[top.year == y]))
+    res["מומנטום יחסי"] = [r for r in mom if r]
 
     sd = np.where(df.direction == "buy", df.tb_stopdist, df.ts_stopdist)
     res["_meta"] = {
@@ -331,7 +398,7 @@ def main():
         json.dump(res, f, ensure_ascii=False, indent=1)
     write_report(res, os.path.join(OUT_DIR, "report.md"))
     keep = ["ticker", "asset_class", "date", "direction", "cluster", "price_dir", "tech_dir", "wy_dir", "rsi", "ext_atr",
-            "spy_below200", "fwd5", "fwd10", "fwd20", "spy5", "spy10", "spy20", "tb_status", "tb_ret", "ts_status", "ts_ret"]
+            "spy_below200", "mom6", "mom12", "fwd5", "fwd10", "fwd20", "spy5", "spy10", "spy20", "tb_status", "tb_ret", "ts_status", "ts_ret"]
     with gzip.open(os.path.join(OUT_DIR, "samples.csv.gz"), "wt", encoding="utf-8") as f:
         df[keep].to_csv(f, index=False)
     print("הבדיקה הושלמה. הדוח נשמר ב-backtest/report.md")
