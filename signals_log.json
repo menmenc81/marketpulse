@@ -2794,5 +2794,31 @@
 "shown": true,
 "status": "open",
 "v": 5
+},
+{
+"date": "2026-11-15",
+"ticker": "BRK-B",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 36,
+"entry": 592.94,
+"stop": 524.8271,
+"target": 695.1093,
+"comps": {
+"price": 82.8,
+"tech": 60.0,
+"analyst": 9.2,
+"news": 40.0
+},
+"n_sources": 3,
+"discount_pct": 6,
+"earnings_days": null,
+"rsi": 78.7,
+"ext_atr": 2.98,
+"position_pct": 8.7,
+"cluster": "BRK-B|buy",
+"shown": true,
+"status": "open",
+"v": 5
 }
 ]
