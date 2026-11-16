@@ -7,10 +7,13 @@
 סורק: אגרות חוב (16 ניירות)
 סורק: סחורות (10 ניירות)
 סורק: קריפטו (10 ניירות)
+ניירות שדולגו (לא נמצאו נתונים): ROKU
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: SAE.TA"}}}
 כותרות חדשות: נמצאו ל-36 מתוך 40 מועמדים (yfinance: 36, RSS: 0).
 ניתוח AI הושלם עבור 36 ניירות ערך.
-דוחות רבעוניים: תאריך ידוע ל-11 מניות, לא ידוע ל-6, בטווח 7 ימים: 0.
-דולגו בגלל מתיחות (רדיפה אחרי מחיר): BTC-USD (RSI 24), DOGE-USD (RSI 24), XRP-USD (RSI 22), SOL-USD (RSI 20), BNB-USD (RSI 23)
+דוחות רבעוניים: תאריך ידוע ל-14 מניות, לא ידוע ל-5, בטווח 7 ימים: 0.
+דולגו בגלל מתיחות (רדיפה אחרי מחיר): BTC-USD (RSI 24), DOGE-USD (RSI 25), SOL-USD (RSI 21), XRP-USD (RSI 22)
+$BRK-B: possibly delisted; no price data found  (1d 2026-11-15 -> 2026-11-16)
 מעקב: 0 איתותים נסגרו בריצה זו.
 נרשמו 1 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
