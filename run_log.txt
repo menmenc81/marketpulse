@@ -7,15 +7,15 @@
 סורק: אגרות חוב (16 ניירות)
 סורק: סחורות (10 ניירות)
 סורק: קריפטו (10 ניירות)
-ניירות שדולגו (לא נמצאו נתונים): ROKU
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: SAE.TA"}}}
-כותרות חדשות: נמצאו ל-36 מתוך 40 מועמדים (yfinance: 36, RSS: 0).
-ניתוח AI הושלם עבור 36 ניירות ערך.
-דוחות רבעוניים: תאריך ידוע ל-14 מניות, לא ידוע ל-5, בטווח 7 ימים: 0.
-דולגו בגלל מתיחות (רדיפה אחרי מחיר): BTC-USD (RSI 24), DOGE-USD (RSI 25), SOL-USD (RSI 21), XRP-USD (RSI 22)
-$BRK-B: possibly delisted; no price data found  (1d 2026-11-15 -> 2026-11-16)
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: ALHE.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: AZRG.TA"}}}
+כותרות חדשות: נמצאו ל-31 מתוך 40 מועמדים (yfinance: 31, RSS: 0).
+ניתוח AI הושלם עבור 31 ניירות ערך.
+דוחות רבעוניים: תאריך ידוע ל-9 מניות, לא ידוע ל-8, בטווח 7 ימים: 1.
+דולגו בגלל דוחות קרובים: ALHE.TA
+דולגו בגלל מתיחות (רדיפה אחרי מחיר): CPER (RSI 24), BTC-USD (RSI 23), DOGE-USD (RSI 24), COIN (RSI 25), SOL-USD (RSI 23)
 מעקב: 0 איתותים נסגרו בריצה זו.
-נרשמו 1 איתותים חדשים למעקב.
+נרשמו 5 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.
 נאספו נתונים פונדמנטליים ל-126 מתוך 126 מניות, נשמר ב-fundamentals/2026-11.csv

@@ -2686,7 +2686,10 @@
 "cluster": "ai_boom|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -5.58,
+"mtm_date": "2026-11-16",
+"spy_ret": -1.91
 },
 {
 "date": "2026-11-14",
@@ -2713,7 +2716,10 @@
 "cluster": "ai_boom|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -5.21,
+"mtm_date": "2026-11-16",
+"spy_ret": -1.91
 },
 {
 "date": "2026-11-14",
@@ -2739,7 +2745,10 @@
 "cluster": "TEVA|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -4.34,
+"mtm_date": "2026-11-16",
+"spy_ret": -1.91
 },
 {
 "date": "2026-11-14",
@@ -2766,7 +2775,10 @@
 "cluster": "rates_high|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -1.41,
+"mtm_date": "2026-11-16",
+"spy_ret": -1.91
 },
 {
 "date": "2026-11-14",
@@ -2793,7 +2805,10 @@
 "cluster": "war_escalation|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -1.96,
+"mtm_date": "2026-11-16",
+"spy_ret": -1.91
 },
 {
 "date": "2026-11-15",
@@ -2819,7 +2834,10 @@
 "cluster": "BRK-B|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -0.02,
+"mtm_date": "2026-11-16",
+"spy_ret": -1.91
 },
 {
 "date": "2026-11-16",
@@ -2843,6 +2861,139 @@
 "ext_atr": 1.74,
 "position_pct": 11.9,
 "cluster": "recession_fear|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-17",
+"ticker": "PG",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 41,
+"entry": 173.02,
+"stop": 152.3371,
+"target": 204.0443,
+"comps": {
+"price": 66.6,
+"tech": 60.0,
+"analyst": 26.7,
+"news": 15.0,
+"theme": 40.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 65,
+"rsi": 78.1,
+"ext_atr": 2.62,
+"position_pct": 8.4,
+"cluster": "recession_fear|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-17",
+"ticker": "ELV",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 38,
+"entry": 446.28,
+"stop": 369.9136,
+"target": 560.8297,
+"comps": {
+"price": 54.1,
+"tech": 100.0,
+"wyckoff": -25.0,
+"analyst": 46.9,
+"news": 25.0
+},
+"n_sources": 3,
+"discount_pct": 6,
+"earnings_days": 72,
+"rsi": 64.0,
+"ext_atr": 1.32,
+"position_pct": 5.8,
+"cluster": "ELV|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-17",
+"ticker": "ORLY",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 35,
+"entry": 92.7,
+"stop": 83.0211,
+"target": 107.2184,
+"comps": {
+"price": 29.4,
+"tech": 60.0,
+"analyst": 65.0,
+"news": -5.0
+},
+"n_sources": 3,
+"discount_pct": 6,
+"earnings_days": null,
+"rsi": 59.6,
+"ext_atr": 0.95,
+"position_pct": 9.6,
+"cluster": "ORLY|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-17",
+"ticker": "KO",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 31,
+"entry": 99.48,
+"stop": 88.4529,
+"target": 116.0207,
+"comps": {
+"price": 58.7,
+"tech": 60.0,
+"analyst": 29.9,
+"news": 10.0,
+"theme": 40.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": null,
+"rsi": 88.1,
+"ext_atr": 2.4,
+"position_pct": 9.0,
+"cluster": "recession_fear|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-17",
+"ticker": "WEAT",
+"asset_class": "סחורות",
+"direction": "buy",
+"score": 30,
+"entry": 21.62,
+"stop": 20.9014,
+"target": 24.4943,
+"comps": {
+"price": -23.1,
+"tech": 40.0,
+"wyckoff": 75.0,
+"theme": 80.0
+},
+"n_sources": 2,
+"discount_pct": 18,
+"earnings_days": null,
+"rsi": 37.0,
+"ext_atr": -1.64,
+"position_pct": 15.0,
+"cluster": "inflation_surge|buy",
 "shown": true,
 "status": "open",
 "v": 5
