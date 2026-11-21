@@ -2687,9 +2687,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -8.4,
-"mtm_date": "2026-11-19",
-"spy_ret": -5.1
+"mtm": -20.54,
+"mtm_date": "2026-11-20",
+"spy_ret": -8.56
 },
 {
 "date": "2026-11-14",
@@ -2717,9 +2717,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.9,
-"mtm_date": "2026-11-19",
-"spy_ret": -5.1
+"mtm": -15.04,
+"mtm_date": "2026-11-20",
+"spy_ret": -8.56
 },
 {
 "date": "2026-11-14",
@@ -2746,9 +2746,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -13.39,
-"mtm_date": "2026-11-19",
-"spy_ret": -5.1
+"mtm": -11.84,
+"mtm_date": "2026-11-20",
+"spy_ret": -8.56
 },
 {
 "date": "2026-11-14",
@@ -2774,11 +2774,15 @@
 "position_pct": 12.3,
 "cluster": "rates_high|buy",
 "shown": true,
-"status": "open",
+"status": "stop",
 "v": 5,
 "mtm": -6.32,
 "mtm_date": "2026-11-19",
-"spy_ret": -5.1
+"spy_ret": -8.56,
+"exit": 79.0362,
+"ret": -8.15,
+"closed": "2026-11-20",
+"days": 5
 },
 {
 "date": "2026-11-14",
@@ -2806,9 +2810,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -6.27,
-"mtm_date": "2026-11-19",
-"spy_ret": -5.1
+"mtm": -6.85,
+"mtm_date": "2026-11-20",
+"spy_ret": -8.56
 },
 {
 "date": "2026-11-15",
@@ -2835,9 +2839,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.52,
-"mtm_date": "2026-11-19",
-"spy_ret": -5.1
+"mtm": -3.87,
+"mtm_date": "2026-11-20",
+"spy_ret": -8.56
 },
 {
 "date": "2026-11-16",
@@ -2864,9 +2868,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.7,
-"mtm_date": "2026-11-19",
-"spy_ret": -3.25
+"mtm": -2.05,
+"mtm_date": "2026-11-20",
+"spy_ret": -6.78
 },
 {
 "date": "2026-11-17",
@@ -2894,9 +2898,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.99,
-"mtm_date": "2026-11-19",
-"spy_ret": -2.26
+"mtm": -2.11,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.82
 },
 {
 "date": "2026-11-17",
@@ -2924,9 +2928,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -12.58,
-"mtm_date": "2026-11-19",
-"spy_ret": -2.26
+"mtm": -11.61,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.82
 },
 {
 "date": "2026-11-17",
@@ -2953,9 +2957,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.1,
-"mtm_date": "2026-11-19",
-"spy_ret": -2.26
+"mtm": -0.05,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.82
 },
 {
 "date": "2026-11-17",
@@ -2983,9 +2987,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.41,
-"mtm_date": "2026-11-19",
-"spy_ret": -2.26
+"mtm": -2.5,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.82
 },
 {
 "date": "2026-11-17",
@@ -3012,9 +3016,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.69,
-"mtm_date": "2026-11-19",
-"spy_ret": -2.26
+"mtm": -0.83,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.82
 },
 {
 "date": "2026-11-18",
@@ -3042,9 +3046,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.46,
-"mtm_date": "2026-11-19",
-"spy_ret": -1.96
+"mtm": -0.71,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.53
 },
 {
 "date": "2026-11-18",
@@ -3072,9 +3076,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.77,
-"mtm_date": "2026-11-19",
-"spy_ret": -1.96
+"mtm": -4.73,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.53
 },
 {
 "date": "2026-11-18",
@@ -3101,9 +3105,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.07,
-"mtm_date": "2026-11-19",
-"spy_ret": -1.96
+"mtm": -4.89,
+"mtm_date": "2026-11-20",
+"spy_ret": -5.53
 },
 {
 "date": "2026-11-19",
@@ -3130,7 +3134,10 @@
 "cluster": "DIS|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -3.58,
+"mtm_date": "2026-11-20",
+"spy_ret": -3.64
 },
 {
 "date": "2026-11-20",
