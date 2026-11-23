@@ -7,11 +7,13 @@
 סורק: אגרות חוב (16 ניירות)
 סורק: סחורות (10 ניירות)
 סורק: קריפטו (10 ניירות)
-כותרות חדשות: נמצאו ל-37 מתוך 40 מועמדים (yfinance: 37, RSS: 0).
-ניתוח AI הושלם עבור 37 ניירות ערך.
-מצב שוק חלש: S&P 500 מתחת לממוצע 200 יום, מדד הפחד VIX גבוה (36)
-דוחות רבעוניים: תאריך ידוע ל-15 מניות, לא ידוע ל-4, בטווח 7 ימים: 0.
-דולגו בגלל מתיחות (רדיפה אחרי מחיר): EFA (RSI 31), PPLT (RSI 34), DIA (RSI 31), QQQ (RSI 31), IWM (RSI 32), SPY (RSI 29), XLK (RSI 29), CPER (RSI 13), LTC-USD (RSI 19), EEM (RSI 29), EIS (RSI 30), FXI (RSI 32), XLB (RSI 24), VTI (RSI 30), ARKK (RSI 27), EWJ (RSI 29), VT (RSI 29), COIN (RSI 26), INTU (RSI 17), ADBE (RSI 20), CAT (RSI 30), SOFI (RSI 21), GS (RSI 32), CRM (RSI 16), BA (RSI 20)
+ניירות שדולגו (לא נמצאו נתונים): ROKU
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: ALHE.TA"}}}
+כותרות חדשות: נמצאו ל-38 מתוך 40 מועמדים (yfinance: 38, RSS: 0).
+ניתוח AI הושלם עבור 38 ניירות ערך.
+מצב שוק חלש: S&P 500 מתחת לממוצע 200 יום
+דוחות רבעוניים: תאריך ידוע ל-14 מניות, לא ידוע ל-5, בטווח 7 ימים: 0.
+דולגו בגלל מתיחות (רדיפה אחרי מחיר): EFA (RSI 31), PPLT (RSI 34), DIA (RSI 31), IWM (RSI 32), SPY (RSI 29), CPER (RSI 13), FXI (RSI 32), XLK (RSI 29), EIS (RSI 30), XLB (RSI 24), ARKK (RSI 27), VTI (RSI 30), EEM (RSI 29), EWJ (RSI 29), QQQ (RSI 31), VT (RSI 29), GS (RSI 32), CAT (RSI 30), INTU (RSI 17), ADBE (RSI 20), SOFI (RSI 21), COIN (RSI 26), CRM (RSI 16), BA (RSI 20)
 מעקב: 0 איתותים נסגרו בריצה זו.
 נרשמו 0 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
