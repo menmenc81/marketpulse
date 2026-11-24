@@ -2687,9 +2687,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -20.54,
-"mtm_date": "2026-11-20",
-"spy_ret": -8.56
+"mtm": -22.37,
+"mtm_date": "2026-11-24",
+"spy_ret": -4.95
 },
 {
 "date": "2026-11-14",
@@ -2717,9 +2717,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -15.04,
-"mtm_date": "2026-11-20",
-"spy_ret": -8.56
+"mtm": -14.53,
+"mtm_date": "2026-11-24",
+"spy_ret": -4.95
 },
 {
 "date": "2026-11-14",
@@ -2746,9 +2746,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -11.84,
-"mtm_date": "2026-11-20",
-"spy_ret": -8.56
+"mtm": -9.75,
+"mtm_date": "2026-11-24",
+"spy_ret": -4.95
 },
 {
 "date": "2026-11-14",
@@ -2810,9 +2810,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -6.85,
-"mtm_date": "2026-11-20",
-"spy_ret": -8.56
+"mtm": -7.39,
+"mtm_date": "2026-11-24",
+"spy_ret": -4.95
 },
 {
 "date": "2026-11-15",
@@ -2839,9 +2839,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.87,
-"mtm_date": "2026-11-20",
-"spy_ret": -8.56
+"mtm": -2.82,
+"mtm_date": "2026-11-24",
+"spy_ret": -4.95
 },
 {
 "date": "2026-11-16",
@@ -2868,9 +2868,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.05,
-"mtm_date": "2026-11-20",
-"spy_ret": -6.78
+"mtm": -0.95,
+"mtm_date": "2026-11-24",
+"spy_ret": -3.09
 },
 {
 "date": "2026-11-17",
@@ -2898,9 +2898,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.11,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.82
+"mtm": -0.71,
+"mtm_date": "2026-11-24",
+"spy_ret": -2.1
 },
 {
 "date": "2026-11-17",
@@ -2928,9 +2928,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -11.61,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.82
+"mtm": -14.36,
+"mtm_date": "2026-11-24",
+"spy_ret": -2.1
 },
 {
 "date": "2026-11-17",
@@ -2957,9 +2957,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.05,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.82
+"mtm": 1.36,
+"mtm_date": "2026-11-24",
+"spy_ret": -2.1
 },
 {
 "date": "2026-11-17",
@@ -2987,9 +2987,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.5,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.82
+"mtm": -2.69,
+"mtm_date": "2026-11-24",
+"spy_ret": -2.1
 },
 {
 "date": "2026-11-17",
@@ -3017,8 +3017,8 @@
 "status": "open",
 "v": 5,
 "mtm": -0.83,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.82
+"mtm_date": "2026-11-24",
+"spy_ret": -2.1
 },
 {
 "date": "2026-11-18",
@@ -3046,9 +3046,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.71,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.53
+"mtm": -2.91,
+"mtm_date": "2026-11-24",
+"spy_ret": -1.8
 },
 {
 "date": "2026-11-18",
@@ -3076,9 +3076,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -4.73,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.53
+"mtm": 0.65,
+"mtm_date": "2026-11-24",
+"spy_ret": -1.8
 },
 {
 "date": "2026-11-18",
@@ -3105,9 +3105,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -4.89,
-"mtm_date": "2026-11-20",
-"spy_ret": -5.53
+"mtm": 0.16,
+"mtm_date": "2026-11-24",
+"spy_ret": -1.8
 },
 {
 "date": "2026-11-19",
@@ -3135,9 +3135,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.58,
-"mtm_date": "2026-11-20",
-"spy_ret": -3.64
+"mtm": -1.32,
+"mtm_date": "2026-11-24",
+"spy_ret": 0.17
 },
 {
 "date": "2026-11-20",
@@ -3164,7 +3164,10 @@
 "cluster": "PANW|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -3.08,
+"mtm_date": "2026-11-24",
+"spy_ret": 3.95
 },
 {
 "date": "2026-11-20",
@@ -3190,7 +3193,10 @@
 "cluster": "TGT|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 4.33,
+"mtm_date": "2026-11-24",
+"spy_ret": 3.95
 },
 {
 "date": "2026-11-20",
@@ -3214,6 +3220,138 @@
 "ext_atr": -1.44,
 "position_pct": 8.4,
 "cluster": "ETN|buy",
+"shown": true,
+"status": "open",
+"v": 5,
+"mtm": -1.41,
+"mtm_date": "2026-11-24",
+"spy_ret": 3.95
+},
+{
+"date": "2026-11-24",
+"ticker": "IEI",
+"asset_class": "אגרות חוב",
+"direction": "buy",
+"score": 27,
+"entry": 115.23,
+"stop": 112.7014,
+"target": 119.0229,
+"comps": {
+"price": 45.5,
+"tech": 20.0
+},
+"n_sources": 1,
+"discount_pct": 24,
+"earnings_days": null,
+"rsi": 52.0,
+"ext_atr": 1.31,
+"position_pct": 10.0,
+"cluster": "אגרות חוב|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-24",
+"ticker": "SHY",
+"asset_class": "אגרות חוב",
+"direction": "buy",
+"score": 26,
+"entry": 81.585,
+"stop": 80.7493,
+"target": 82.8386,
+"comps": {
+"price": 42.6,
+"tech": 60.0,
+"news": -5.0
+},
+"n_sources": 2,
+"discount_pct": 16,
+"earnings_days": null,
+"rsi": 53.5,
+"ext_atr": 1.25,
+"position_pct": 10.0,
+"cluster": "אגרות חוב|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-24",
+"ticker": "GOOGL",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 26,
+"entry": 278.23,
+"stop": 244.3536,
+"target": 413.7358,
+"comps": {
+"price": -20.6,
+"tech": 20.0,
+"wyckoff": 75.0,
+"analyst": 49.2,
+"news": 0.0,
+"theme": 85.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 71,
+"rsi": 43.5,
+"ext_atr": -0.63,
+"position_pct": 8.2,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-24",
+"ticker": "TSEM.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 24,
+"entry": 43650.0,
+"stop": 36373.9286,
+"target": 72754.2857,
+"comps": {
+"price": -15.5,
+"tech": 0.0,
+"wyckoff": 75.0,
+"news": 35.0,
+"theme": 85.0
+},
+"n_sources": 3,
+"discount_pct": 10,
+"earnings_days": 78,
+"rsi": 42.3,
+"ext_atr": -1.37,
+"position_pct": 6.0,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-24",
+"ticker": "CLIS.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 8,
+"entry": 24120.0,
+"stop": 21840.0,
+"target": 33240.0,
+"comps": {
+"price": -34.5,
+"tech": -40.0,
+"analyst": 100.0
+},
+"n_sources": 2,
+"discount_pct": 14,
+"earnings_days": null,
+"rsi": 39.8,
+"ext_atr": -1.7,
+"position_pct": 10.6,
+"cluster": "CLIS.TA|buy",
 "shown": true,
 "status": "open",
 "v": 5
