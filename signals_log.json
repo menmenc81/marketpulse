@@ -2687,9 +2687,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -22.62,
-"mtm_date": "2026-11-24",
-"spy_ret": -4.72
+"mtm": -23.97,
+"mtm_date": "2026-11-25",
+"spy_ret": -4.99
 },
 {
 "date": "2026-11-14",
@@ -2717,9 +2717,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -14.56,
-"mtm_date": "2026-11-24",
-"spy_ret": -4.72
+"mtm": -16.88,
+"mtm_date": "2026-11-25",
+"spy_ret": -4.99
 },
 {
 "date": "2026-11-14",
@@ -2746,9 +2746,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -9.89,
-"mtm_date": "2026-11-24",
-"spy_ret": -4.72
+"mtm": -10.43,
+"mtm_date": "2026-11-25",
+"spy_ret": -4.99
 },
 {
 "date": "2026-11-14",
@@ -2810,9 +2810,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -6.94,
-"mtm_date": "2026-11-24",
-"spy_ret": -4.72
+"mtm": -6.25,
+"mtm_date": "2026-11-25",
+"spy_ret": -4.99
 },
 {
 "date": "2026-11-15",
@@ -2839,9 +2839,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.65,
-"mtm_date": "2026-11-24",
-"spy_ret": -4.72
+"mtm": -2.3,
+"mtm_date": "2026-11-25",
+"spy_ret": -4.99
 },
 {
 "date": "2026-11-16",
@@ -2868,9 +2868,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.51,
-"mtm_date": "2026-11-24",
-"spy_ret": -2.86
+"mtm": -0.05,
+"mtm_date": "2026-11-25",
+"spy_ret": -3.14
 },
 {
 "date": "2026-11-17",
@@ -2898,9 +2898,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.32,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.86
+"mtm": 0.12,
+"mtm_date": "2026-11-25",
+"spy_ret": -2.15
 },
 {
 "date": "2026-11-17",
@@ -2928,9 +2928,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -12.35,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.86
+"mtm": -12.68,
+"mtm_date": "2026-11-25",
+"spy_ret": -2.15
 },
 {
 "date": "2026-11-17",
@@ -2957,9 +2957,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 2.94,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.86
+"mtm": 4.3,
+"mtm_date": "2026-11-25",
+"spy_ret": -2.15
 },
 {
 "date": "2026-11-17",
@@ -2987,9 +2987,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.87,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.86
+"mtm": -1.9,
+"mtm_date": "2026-11-25",
+"spy_ret": -2.15
 },
 {
 "date": "2026-11-17",
@@ -3016,9 +3016,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.25,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.86
+"mtm": -1.48,
+"mtm_date": "2026-11-25",
+"spy_ret": -2.15
 },
 {
 "date": "2026-11-18",
@@ -3046,9 +3046,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.65,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.56
+"mtm": -2.1,
+"mtm_date": "2026-11-25",
+"spy_ret": -1.85
 },
 {
 "date": "2026-11-18",
@@ -3076,9 +3076,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.12,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.56
+"mtm": -4.2,
+"mtm_date": "2026-11-25",
+"spy_ret": -1.85
 },
 {
 "date": "2026-11-18",
@@ -3105,9 +3105,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.2,
-"mtm_date": "2026-11-24",
-"spy_ret": -1.56
+"mtm": 0.38,
+"mtm_date": "2026-11-25",
+"spy_ret": -1.85
 },
 {
 "date": "2026-11-19",
@@ -3135,9 +3135,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.12,
-"mtm_date": "2026-11-24",
-"spy_ret": 0.41
+"mtm": 2.65,
+"mtm_date": "2026-11-25",
+"spy_ret": 0.12
 },
 {
 "date": "2026-11-20",
@@ -3165,9 +3165,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.42,
-"mtm_date": "2026-11-24",
-"spy_ret": 4.2
+"mtm": -1.55,
+"mtm_date": "2026-11-25",
+"spy_ret": 3.9
 },
 {
 "date": "2026-11-20",
@@ -3194,9 +3194,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 5.14,
-"mtm_date": "2026-11-24",
-"spy_ret": 4.2
+"mtm": 2.84,
+"mtm_date": "2026-11-25",
+"spy_ret": 3.9
 },
 {
 "date": "2026-11-20",
@@ -3223,9 +3223,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.42,
-"mtm_date": "2026-11-24",
-"spy_ret": 4.2
+"mtm": -3.86,
+"mtm_date": "2026-11-25",
+"spy_ret": 3.9
 },
 {
 "date": "2026-11-24",
@@ -3249,7 +3249,10 @@
 "cluster": "אגרות חוב|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 0.17,
+"mtm_date": "2026-11-25",
+"spy_ret": -0.29
 },
 {
 "date": "2026-11-24",
@@ -3274,7 +3277,10 @@
 "cluster": "אגרות חוב|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 0.07,
+"mtm_date": "2026-11-25",
+"spy_ret": -0.29
 },
 {
 "date": "2026-11-24",
@@ -3302,7 +3308,10 @@
 "cluster": "ai_boom|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -1.84,
+"mtm_date": "2026-11-25",
+"spy_ret": -0.29
 },
 {
 "date": "2026-11-24",
@@ -3330,9 +3339,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -9.62,
-"mtm_date": "2026-11-25",
-"spy_ret": 0.0
+"mtm": -5.43,
+"mtm_date": "2026-11-26",
+"spy_ret": -0.29
 },
 {
 "date": "2026-11-24",
@@ -3358,9 +3367,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.95,
-"mtm_date": "2026-11-25",
-"spy_ret": 0.0
+"mtm": 3.86,
+"mtm_date": "2026-11-26",
+"spy_ret": -0.29
 },
 {
 "date": "2026-11-25",
@@ -3461,6 +3470,87 @@
 "ext_atr": 0.79,
 "position_pct": 10.0,
 "cluster": "אגרות חוב|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-26",
+"ticker": "PLTR",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 39,
+"entry": 163.59,
+"stop": 116.3645,
+"target": 273.28,
+"comps": {
+"price": -0.5,
+"tech": 60.0,
+"wyckoff": 25.0,
+"analyst": 80.9,
+"news": 20.0,
+"theme": 75.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 67,
+"rsi": 56.4,
+"ext_atr": -0.3,
+"position_pct": 3.5,
+"cluster": "ai_boom|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-26",
+"ticker": "TIP",
+"asset_class": "אגרות חוב",
+"direction": "buy",
+"score": 33,
+"entry": 105.84,
+"stop": 103.4571,
+"target": 109.4143,
+"comps": {
+"price": 42.3,
+"tech": 20.0,
+"news": 5.0,
+"theme": 85.0
+},
+"n_sources": 3,
+"discount_pct": 10,
+"earnings_days": null,
+"rsi": 44.1,
+"ext_atr": 0.63,
+"position_pct": 10.0,
+"cluster": "אגרות חוב|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-26",
+"ticker": "WMT",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 32,
+"entry": 131.94,
+"stop": 115.0586,
+"target": 157.2622,
+"comps": {
+"price": 47.5,
+"tech": 20.0,
+"analyst": 43.7,
+"news": 20.0,
+"theme": 55.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 84,
+"rsi": 64.7,
+"ext_atr": 1.72,
+"position_pct": 7.8,
+"cluster": "recession_fear|buy",
 "shown": true,
 "status": "open",
 "v": 5
