@@ -7,18 +7,20 @@
 סורק: אגרות חוב (16 ניירות)
 סורק: סחורות (10 ניירות)
 סורק: קריפטו (10 ניירות)
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: SAE.TA"}}}
+ניירות שדולגו (לא נמצאו נתונים): ROKU
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: ELAL.TA"}}}
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: DSCT.TA"}}}
-HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: DLEKG.TA"}}}
-כותרות חדשות: נמצאו ל-38 מתוך 40 מועמדים (yfinance: 38, RSS: 0).
-ניתוח AI הושלם עבור 38 ניירות ערך.
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: MGDL.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: SAE.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: PHOE.TA"}}}
+HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: CLIS.TA"}}}
+כותרות חדשות: נמצאו ל-33 מתוך 40 מועמדים (yfinance: 32, RSS: 1).
+ניתוח AI הושלם עבור 33 ניירות ערך.
 מצב שוק חלש: S&P 500 מתחת לממוצע 200 יום
-דוחות רבעוניים: תאריך ידוע ל-17 מניות, לא ידוע ל-6, בטווח 7 ימים: 1.
+דוחות רבעוניים: תאריך ידוע ל-18 מניות, לא ידוע ל-6, בטווח 7 ימים: 1.
 דולגו בגלל דוחות קרובים: SAE.TA
-דולגו בגלל מתיחות (רדיפה אחרי מחיר): PPLT (RSI 21), CPER (RSI 22), FXI (RSI 9), COIN (RSI 23), INTU (RSI 16)
+דולגו בגלל מתיחות (רדיפה אחרי מחיר): PPLT (RSI 21), FXI (RSI 9), CPER (RSI 22), COIN (RSI 23), INTU (RSI 16)
 מעקב: 0 איתותים נסגרו בריצה זו.
-נרשמו 3 איתותים חדשים למעקב.
+נרשמו 2 איתותים חדשים למעקב.
 index.html נוצר בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.
 נאספו נתונים פונדמנטליים ל-126 מתוך 126 מניות, נשמר ב-fundamentals/2026-11.csv

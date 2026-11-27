@@ -3339,8 +3339,8 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -5.43,
-"mtm_date": "2026-11-26",
+"mtm": -1.42,
+"mtm_date": "2026-11-27",
 "spy_ret": -0.29
 },
 {
@@ -3367,8 +3367,8 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 3.86,
-"mtm_date": "2026-11-26",
+"mtm": 7.34,
+"mtm_date": "2026-11-27",
 "spy_ret": -0.29
 },
 {
@@ -3551,6 +3551,61 @@
 "ext_atr": 1.72,
 "position_pct": 7.8,
 "cluster": "recession_fear|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-27",
+"ticker": "PHOE.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 44,
+"entry": 17060.0,
+"stop": 13385.0,
+"target": 23210.0,
+"comps": {
+"price": 8.7,
+"tech": 60.0,
+"wyckoff": 75.0,
+"analyst": 100.0,
+"news": 20.0
+},
+"n_sources": 3,
+"discount_pct": 6,
+"earnings_days": 118,
+"rsi": 53.1,
+"ext_atr": 0.55,
+"position_pct": 4.6,
+"cluster": "PHOE.TA|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-27",
+"ticker": "ENLT.TA",
+"asset_class": "מניות ישראליות",
+"direction": "buy",
+"score": 43,
+"entry": 21820.0,
+"stop": 17031.0714,
+"target": 29003.3929,
+"comps": {
+"price": 21.4,
+"tech": 20.0,
+"wyckoff": 75.0,
+"analyst": 100.0,
+"news": 5.0,
+"theme": 55.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 81,
+"rsi": 48.1,
+"ext_atr": 0.66,
+"position_pct": 4.6,
+"cluster": "energy_crisis|buy",
 "shown": true,
 "status": "open",
 "v": 5
