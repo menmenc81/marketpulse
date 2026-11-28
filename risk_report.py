@@ -191,8 +191,10 @@ def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0
     loss_stops = float((w * np.minimum(np.clip(beta, 0, None) * CRASH, stop)).sum())       # אם הסטופים מתבצעים בלי פער
 
     # נקודות חולשה
-    weak = []
+    weak, watch = [], []
     for i, p in enumerate(positions):
+        if (p.get("mtm") is not None and p["mtm"] <= -8) or beta[i] > 2.0:
+            watch.append(names[i])
         share = contrib[i] * 100
         if w[i] > 0 and share > 2 * w[i] / max(w.sum(), 1e-9) * 100 and share > 8:
             weak.append(f"{names[i]}: תורם {share:.0f}% מהסיכון אבל מהווה {w[i] / w.sum() * 100:.0f}% מהחשיפה (תנודתי מאוד: {vol_i[i] * 100:.0f}% שנתי)")
@@ -273,6 +275,7 @@ def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0
         "port_vol": round(port_vol, 1), "port_beta": round(port_beta, 2), "n_eff": round(n_eff, 1), "pc1": round(pc1 * 100, 0),
         "avg_corr": round(avg_corr, 2), "pairs": pairs[:10], "clusters": clusters[:6], "by_class": {k: round(v, 1) for k, v in by_class.items()},
         "scenario": {"crash": CRASH, "beta": round(loss_beta, 1), "crisis": round(loss_corr1, 1), "stops": round(loss_stops, 1)},
+        "watch": watch[:4],
         "weak": weak[:10], "rebalance": rebalance[:12], "new_exposure": round(new_exposure * 100, 0),
         "portfolio_ils": portfolio_ils, "contract_ils": contract_ils, "options_impractical": impractical,
         "hedges": hedges, "hedge_source": pp["source"], "vix": pp.get("vix"),
@@ -304,11 +307,44 @@ def _e(x):
     return html.escape(str(x))
 
 
+def simple_summary(rep):
+    # סיכום פשוט של הפוזיציות: שורות קצרות ופעולות מומלצות
+    pv = rep.get("portfolio_ils")
+    sc = rep["scenario"]
+    ils = (lambda pct: f"{pct * pv / 100:,.0f} ₪") if pv else (lambda pct: "")
+    lines = []
+    lines.append(f"אם השוק יורד ב-{sc['crash']:g}%: הפסד צפוי של כ-{sc['beta']:g}%" + (f" ({ils(sc['beta'])})" if pv else "") +
+                 f", ובמשבר חד עד {sc['crisis']:g}%" + (f" ({ils(sc['crisis'])})." if pv else "."))
+    lines.append(f"פיזור: {rep['n']} פוזיציות, אבל רק כ-{rep['n_eff']:.0f} הימורים בלתי תלויים באמת.")
+    for c in rep["clusters"][:2]:
+        lines.append(f"נעים יחד כמעט כמו נייר אחד: {', '.join(c['names'][:5])} ({c['weight']:g}% מהתיק).")
+    if rep.get("watch"):
+        lines.append("לשים עין (קרוב לסטופ או תנודתי מאוד): " + ", ".join(rep["watch"]) + ".")
+    acts = []
+    if rep["raw_total"] > 110:
+        acts.append(f"אל תבצע את כל האיתותים הפתוחים: סכומם {rep['raw_total']:.0f}% מהתיק. בחר עד 12 ואל תוסיף עד שחלק נסגרים.")
+    if rep["new_exposure"] < rep["exposure"] * 0.98:
+        acts.append(f"שקול להקטין חשיפה ל-{rep['new_exposure']:g}% מהתיק ולהשאיר את השאר במזומן.")
+    if rep["clusters"]:
+        acts.append("אל תוסיף ניירות נוספים מהקבוצות הצמודות.")
+    if rep.get("options_impractical") and pv:
+        acts.append(f"גידור באופציות לא מעשי לתיק בגודל {pv:,.0f} ₪. הגנה פשוטה: מזומן, או קרן הפוכה SH בסכום של כ-{ils(10)} (10%), שמקטינה הפסד של {sc['crash']:g}% בשוק בכ-{sc['crash'] * 0.10:g}% מהתיק.")
+    lines.append("מה לעשות:")
+    lines += [f"• {a}" for a in acts[:4]] or ["• אין צורך בפעולה מיוחדת כרגע."]
+    return lines
+
+
 def build_risk_html(rep, source):
     if not rep:
         return ""
     sc = rep["scenario"]
-    h = ['<div class="section-head">ניתוח תיק וסיכון</div>', '<div class="risk">']
+    sl = simple_summary(rep)
+    k = sl.index("מה לעשות:")
+    summary = "".join(f"<p>{_e(x)}</p>" for x in sl[:k])
+    last = "מה לעשות: " + " ".join(x for x in sl[k + 1:])
+    h = ['<div class="section-head">הפוזיציות שלי</div>',
+         f'<div class="mine">{summary}<p class="act">{_e(last)}</p></div>',
+         '<details class="box"><summary>ניתוח סיכון מלא (קורלציות, איזון מחדש, גידורים)</summary><div class="risk">']
     h.append(f'<div class="note">בסיס הניתוח: {_e(source)}. {rep["n"]} פוזיציות, חשיפה כוללת {rep["exposure"]:g}% מהתיק. '
              f'כל המספרים באחוזי תיק. אין כאן ייעוץ השקעות.</div>')
     h.append('<div class="risk-grid">'
@@ -350,20 +386,11 @@ def build_risk_html(rep, source):
                  'לכן פוטים על SPY אינם מעשיים לתיק בגודל כזה. החלופות המעשיות: הקטנת חשיפה למזומן, או קרן הפוכה (SH) בסכום קטן.</div>')
     h.append('<div class="note">מספר חוזים בקירוב: שווי התיק כפול אחוז הכיסוי לחלק ב-(100 כפול מחיר SPY). אופציות כרוכות בסיכון ובמורכבות, ופוט מפסיד את כל הפרמיה אם השוק לא יורד. '
              'הפסד בפועל יהיה שונה מהחישוב: מתאמים משתנים במשבר, ויכולים להיות פערי מחיר בסטופים.</div>')
-    h.append("</div>")
+    h.append("</div></details>")
     return "".join(h)
 
 
 def risk_telegram_lines(rep):
     if not rep:
         return []
-    sc = rep["scenario"]
-    L = [f"ניתוח תיק: חשיפה {rep['exposure']:g}%, תנודתיות {rep['port_vol']:g}%, בטא {rep['port_beta']:g}, "
-         f"{rep['n_eff']:g} הימורים בלתי תלויים מתוך {rep['n']}.",
-         f"בירידה של {sc['crash']:g}% בשוק: הפסד צפוי {sc['beta']:g}% מהתיק" +
-         (f" (כ-{sc['beta'] * rep['portfolio_ils'] / 100:,.0f} ₪)" if rep.get("portfolio_ils") else "") + f", עד {sc['crisis']:g}% במשבר."]
-    if rep["raw_total"] > rep["exposure"] * 1.05:
-        L.append(f"אזהרה: סך הפוזיציות לכל האיתותים הפתוחים הוא {rep['raw_total']:g}% מהתיק.")
-    for c in rep["clusters"][:2]:
-        L.append(f"קבוצה צמודה: {', '.join(c['names'][:6])} ({c['weight']:g}% מהתיק).")
-    return L
+    return ["הפוזיציות שלי:"] + simple_summary(rep)
