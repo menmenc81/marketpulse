@@ -2687,9 +2687,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -23.97,
-"mtm_date": "2026-11-25",
-"spy_ret": -4.99
+"mtm": -20.51,
+"mtm_date": "2026-11-27",
+"spy_ret": -3.45
 },
 {
 "date": "2026-11-14",
@@ -2717,9 +2717,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -16.88,
-"mtm_date": "2026-11-25",
-"spy_ret": -4.99
+"mtm": -11.43,
+"mtm_date": "2026-11-27",
+"spy_ret": -3.45
 },
 {
 "date": "2026-11-14",
@@ -2746,9 +2746,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -10.43,
-"mtm_date": "2026-11-25",
-"spy_ret": -4.99
+"mtm": -10.25,
+"mtm_date": "2026-11-27",
+"spy_ret": -3.45
 },
 {
 "date": "2026-11-14",
@@ -2810,9 +2810,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -6.25,
-"mtm_date": "2026-11-25",
-"spy_ret": -4.99
+"mtm": -5.06,
+"mtm_date": "2026-11-27",
+"spy_ret": -3.45
 },
 {
 "date": "2026-11-15",
@@ -2839,9 +2839,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.3,
-"mtm_date": "2026-11-25",
-"spy_ret": -4.99
+"mtm": -2.05,
+"mtm_date": "2026-11-27",
+"spy_ret": -3.45
 },
 {
 "date": "2026-11-16",
@@ -2868,9 +2868,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -0.05,
-"mtm_date": "2026-11-25",
-"spy_ret": -3.14
+"mtm": 0.36,
+"mtm_date": "2026-11-27",
+"spy_ret": -1.57
 },
 {
 "date": "2026-11-17",
@@ -2898,9 +2898,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.12,
-"mtm_date": "2026-11-25",
-"spy_ret": -2.15
+"mtm": -0.09,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.56
 },
 {
 "date": "2026-11-17",
@@ -2928,9 +2928,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -12.68,
-"mtm_date": "2026-11-25",
-"spy_ret": -2.15
+"mtm": -11.89,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.56
 },
 {
 "date": "2026-11-17",
@@ -2957,9 +2957,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 4.3,
-"mtm_date": "2026-11-25",
-"spy_ret": -2.15
+"mtm": 3.86,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.56
 },
 {
 "date": "2026-11-17",
@@ -2987,9 +2987,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.9,
-"mtm_date": "2026-11-25",
-"spy_ret": -2.15
+"mtm": -2.09,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.56
 },
 {
 "date": "2026-11-17",
@@ -3016,9 +3016,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.48,
-"mtm_date": "2026-11-25",
-"spy_ret": -2.15
+"mtm": -0.6,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.56
 },
 {
 "date": "2026-11-18",
@@ -3046,9 +3046,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -2.1,
-"mtm_date": "2026-11-25",
-"spy_ret": -1.85
+"mtm": -1.11,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.26
 },
 {
 "date": "2026-11-18",
@@ -3076,9 +3076,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -4.2,
-"mtm_date": "2026-11-25",
-"spy_ret": -1.85
+"mtm": 0.35,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.26
 },
 {
 "date": "2026-11-18",
@@ -3105,9 +3105,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.38,
-"mtm_date": "2026-11-25",
-"spy_ret": -1.85
+"mtm": 2.03,
+"mtm_date": "2026-11-27",
+"spy_ret": -0.26
 },
 {
 "date": "2026-11-19",
@@ -3135,9 +3135,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 2.65,
-"mtm_date": "2026-11-25",
-"spy_ret": 0.12
+"mtm": 3.99,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.74
 },
 {
 "date": "2026-11-20",
@@ -3165,9 +3165,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.55,
-"mtm_date": "2026-11-25",
-"spy_ret": 3.9
+"mtm": 1.39,
+"mtm_date": "2026-11-27",
+"spy_ret": 5.58
 },
 {
 "date": "2026-11-20",
@@ -3194,9 +3194,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 2.84,
-"mtm_date": "2026-11-25",
-"spy_ret": 3.9
+"mtm": 2.69,
+"mtm_date": "2026-11-27",
+"spy_ret": 5.58
 },
 {
 "date": "2026-11-20",
@@ -3223,9 +3223,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -3.86,
-"mtm_date": "2026-11-25",
-"spy_ret": 3.9
+"mtm": -1.41,
+"mtm_date": "2026-11-27",
+"spy_ret": 5.58
 },
 {
 "date": "2026-11-24",
@@ -3250,9 +3250,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.17,
-"mtm_date": "2026-11-25",
-"spy_ret": -0.29
+"mtm": -0.04,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.33
 },
 {
 "date": "2026-11-24",
@@ -3278,9 +3278,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": 0.07,
-"mtm_date": "2026-11-25",
-"spy_ret": -0.29
+"mtm": 0.04,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.33
 },
 {
 "date": "2026-11-24",
@@ -3309,9 +3309,9 @@
 "shown": true,
 "status": "open",
 "v": 5,
-"mtm": -1.84,
-"mtm_date": "2026-11-25",
-"spy_ret": -0.29
+"mtm": -1.18,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.33
 },
 {
 "date": "2026-11-24",
@@ -3341,7 +3341,7 @@
 "v": 5,
 "mtm": -1.42,
 "mtm_date": "2026-11-27",
-"spy_ret": -0.29
+"spy_ret": 1.33
 },
 {
 "date": "2026-11-24",
@@ -3369,7 +3369,7 @@
 "v": 5,
 "mtm": 7.34,
 "mtm_date": "2026-11-27",
-"spy_ret": -0.29
+"spy_ret": 1.33
 },
 {
 "date": "2026-11-25",
@@ -3395,7 +3395,10 @@
 "cluster": "ZS|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 3.4,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-25",
@@ -3421,7 +3424,10 @@
 "cluster": "ABBV|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -2.8,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-25",
@@ -3447,7 +3453,10 @@
 "cluster": "GILD|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -0.72,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-25",
@@ -3472,7 +3481,10 @@
 "cluster": "אגרות חוב|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 0.03,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-26",
@@ -3500,7 +3512,10 @@
 "cluster": "ai_boom|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 5.24,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-26",
@@ -3526,7 +3541,10 @@
 "cluster": "אגרות חוב|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": -0.16,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-26",
@@ -3553,7 +3571,10 @@
 "cluster": "recession_fear|buy",
 "shown": true,
 "status": "open",
-"v": 5
+"v": 5,
+"mtm": 0.9,
+"mtm_date": "2026-11-27",
+"spy_ret": 1.62
 },
 {
 "date": "2026-11-27",
@@ -3606,6 +3627,34 @@
 "ext_atr": 0.66,
 "position_pct": 4.6,
 "cluster": "energy_crisis|buy",
+"shown": true,
+"status": "open",
+"v": 5
+},
+{
+"date": "2026-11-28",
+"ticker": "META",
+"asset_class": "מניות ארצות הברית",
+"direction": "buy",
+"score": 50,
+"entry": 628.96,
+"stop": 480.4043,
+"target": 926.0714,
+"comps": {
+"price": 7.1,
+"tech": 60.0,
+"wyckoff": 75.0,
+"analyst": 89.5,
+"news": 30.0,
+"theme": 75.0
+},
+"n_sources": 4,
+"discount_pct": 0,
+"earnings_days": 60,
+"rsi": 54.1,
+"ext_atr": 0.54,
+"position_pct": 4.2,
+"cluster": "ai_boom|buy",
 "shown": true,
 "status": "open",
 "v": 5
