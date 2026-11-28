@@ -1,0 +1,30 @@
+# סקירה שבועית של העסקאות (טעויות, הטיות, הזדמנויות שפוספסו). רצה ביום ראשון בבוקר, וגם ידנית.
+name: review
+on:
+  schedule:
+    - cron: "30 5 * * 0"
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt pandas numpy
+      - shell: bash
+        run: |
+          mkdir -p review
+          python -u -W ignore review_trades.py 2>&1 | tee review/review_log.txt
+      - if: always()
+        run: |
+          git config user.name "marketpulse-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add review
+          git commit -m "סקירה שבועית של עסקאות" || echo none
+          git pull --rebase
+          git push

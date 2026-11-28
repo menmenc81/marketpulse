@@ -1,0 +1,5 @@
+{
+  "AAPL": {"weight": 10, "asset_class": "מניות ארצות הברית", "stop_pct": 12},
+  "MSFT": {"weight": 8, "asset_class": "מניות ארצות הברית"},
+  "IEF":  {"weight": 15, "asset_class": "אגרות חוב"}
+}

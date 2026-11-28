@@ -16,6 +16,9 @@ import xml.etree.ElementTree as ET
 import requests
 import pandas as pd
 import yfinance as yf
+
+import tech_detail
+import risk_report
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
@@ -37,6 +40,7 @@ MAX_RR = 4.0                  # יחס סיכוי/סיכון מקסימלי לי
 STOP_SCALE = 2.0              # מכפיל לרוחב הסטופ והיעד (נקבע לפי הבדיקה ההיסטורית)
 SELL_SIGNALS_ENABLED = False  # בדיקה היסטורית: לאיתותי מכירה אין יתרון, ולכן הם כבויים
 FILTER_OVEREXTENDED_BUY = False  # בדיקה היסטורית: קניות "מתוחות" דווקא הצליחו יותר, ולכן לא נפסלות
+STOP_COOLDOWN_DAYS = 10       # אחרי סטופ על נייר, לא נותנים עליו איתות חדש בתקופה הזו (מונע "ניסיון נוסף" אוטומטי)
 MAX_TARGET_ATR = 6.0          # תקרת מרחק היעד, בכפולות של ATR (אופק של כמה שבועות)
 RISK_PER_TRADE_PCT = 1.0      # כמה אחוז מהתיק מסכנים בכל איתות (ההפסד אם הסטופ נפגע). משנים כאן
 CLASS_MAX_POSITION = {"אגרות חוב": 10.0, "קריפטו": 5.0, "סחורות": 15.0}   # תקרות לפי סוג נכס (סטופ צמוד לא אומר סיכון נמוך)
@@ -544,13 +548,13 @@ def analyze_price(ticker, asset_class):
         if hist is None or hist.empty or "Close" not in hist.columns:
             return None
         hist = hist.dropna(subset=["Close"])
-        return analyze_hist(hist, ticker, asset_class)
+        return analyze_hist(hist, ticker, asset_class, detail=True)
     except Exception as e:
         print(f"דילוג על {ticker}: {e}")
         return None
 
 
-def analyze_hist(hist, ticker, asset_class):
+def analyze_hist(hist, ticker, asset_class, detail=False):
     # ניתוח המחיר עצמו על טבלת היסטוריה נתונה (משמש גם את הבדיקה ההיסטורית ב-backtest.py)
     if len(hist) < 30:
         return None
@@ -627,6 +631,7 @@ def analyze_hist(hist, ticker, asset_class):
         "swing_high": float(hist["High"].iloc[-win10:].max()),
         "hi60": float(hist["High"].iloc[-60:].max()),
         "lo60": float(hist["Low"].iloc[-60:].min()),
+        "tb": tech_detail.tech_breakdown(hist, last, atr) if detail else None,
         "theme_dir": None,
         "theme_notes": [],
         "analyst_dir": None,
@@ -991,6 +996,7 @@ def finalize(p):
     p["stop"] = fmt_price(stop / d, sym)
     p["target_pct"] = f"{(target - last) / last * 100:+.1f}%"
     p["stop_pct"] = f"{(stop - last) / last * 100:+.1f}%"
+    p["rr"] = rr
     p["rr_text"] = f"1:{rr:.1f}"
     p["target_note"] = note
     p["raw_entry"], p["raw_stop"], p["raw_target"] = last, stop, target   # מחירים גולמיים, למעקב ביצועים
@@ -1102,6 +1108,46 @@ def pick_diversified(ranked, themes, n):
         if len(out) >= n:
             break
     return out
+
+
+def recent_stops(log, today):
+    # נייר שנסגר בסטופ בימים האחרונים: לא נותנים עליו שוב איתות מיד (טעות חוזרת נפוצה)
+    out = set()
+    for r in log:
+        if r.get("status") == "stop" and r.get("closed"):
+            try:
+                d = datetime.strptime(r["closed"][:10], "%Y-%m-%d").date()
+            except Exception:
+                continue
+            if (today - d).days < STOP_COOLDOWN_DAYS:
+                out.add(r["ticker"])
+    return out
+
+
+def apply_capacity(top, log):
+    # תקרת חשיפה כוללת: סך הפוזיציות של כל האיתותים הפתוחים (לא רק של היום) לא עולה על התקרה.
+    # בלי זה, כל יום מוסיף עד 100% חדשים, ומי שהולך אחרי כל האיתותים מגיע לחשיפה של כמה מאות אחוזים.
+    today_tickers = {p["ticker"] for p in top}
+    if os.path.exists(risk_report.PORTFOLIO_FILE):
+        # החזקות אמיתיות מהקובץ portfolio.json: הקיבולת נמדדת מולן ולא מול האיתותים שנרשמו
+        pos, _src, _raw = risk_report.load_positions([], [], "", TOTAL_EXPOSURE_CAP_PCT)
+        held = sum(x["w"] for x in pos if x["ticker"] not in today_tickers)
+        open_now = {x["ticker"] for x in pos}
+    else:
+        held = sum(r.get("position_pct") or 0 for r in log
+                   if r.get("status") == "open" and r.get("shown") and r.get("v") == MODEL_VERSION and r["ticker"] not in today_tickers)
+        open_now = {r["ticker"] for r in log if r.get("status") == "open"}
+    fresh = [p for p in top if p["ticker"] not in open_now and p.get("position_pct")]
+    capacity = max(0.0, TOTAL_EXPOSURE_CAP_PCT - held)
+    need = sum(p["position_pct"] for p in fresh)
+    if need > capacity:
+        factor = capacity / need if need else 0.0
+        for p in fresh:
+            p["position_pct"] = round(p["position_pct"] * factor, 1)
+            p["position_note"] = (f"אין קיבולת פנויה: האיתותים הפתוחים כבר מחזיקים {held:.0f}% מהתיק. "
+                                  "הוספה כאן מחייבת לסגור פוזיציה אחרת." if capacity <= 0.5 else
+                                  f"הוקטן כי האיתותים הפתוחים כבר מחזיקים {held:.0f}% מהתיק (תקרה {TOTAL_EXPOSURE_CAP_PCT:g}%).")
+        print(f"קיבולת חשיפה: פתוח {held:.0f}%, פנוי {capacity:.0f}%, נדרש {need:.0f}%. הפוזיציות החדשות הוקטנו פי {factor:.2f}.")
 
 
 def load_log():
@@ -1316,6 +1362,138 @@ def esc(text):
     return html.escape(str(text), quote=True)
 
 
+
+def touch_txt(n):
+    return "נגיעה אחת" if n == 1 else f"{n} נגיעות"
+
+
+def tech_view(p):
+    try:
+        return _tech_view(p)
+    except Exception as e:
+        print(f"שגיאה בפירוק טכני של {p.get('ticker')}: {e}")
+        return [], []
+
+
+def _tech_view(p):
+    # פירוק טכני בעברית: מחזיר רשימת (כותרת, טקסט) ורשימת התראות על מיקום היעד והסטופ ביחס לרמות
+    tb = p.get("tb")
+    if not tb:
+        return [], []
+    d, sym = p["divisor"], p["symbol"]
+    f = lambda v: fmt_price(v / d, sym)
+    last = p["last"]
+    lv, tr, ma, mo = tb["levels"], tb["trend"], tb["ma"], tb["mom"]
+    rows, alerts = [], []
+
+    def lvl_txt(ls):
+        return " · ".join(f"{f(l['price'])} ({l['dist_pct']:+.1f}%, {touch_txt(l['touches'])})" for l in ls) or "אין רמה ברורה"
+    rows.append(("תמיכה", lvl_txt(lv["support"])))
+    rows.append(("התנגדות", lvl_txt(lv["resistance"])))
+    rows.append(("טווח 52 שבועות", f"שפל {f(lv['lo52'])} · שיא {f(lv['hi52'])}"))
+
+    ch = tr["channel_pos"]
+    slope = tr["slope_pct_week"]
+    direction = "עולה" if slope > 0.3 else "יורדת" if slope < -0.3 else "צדדית"
+    place = "קרוב לראש הערוץ" if ch > 0.6 else "קרוב לתחתית הערוץ" if ch < -0.6 else "אמצע הערוץ"
+    qual = "ברורה" if tr["r2"] >= 0.6 else "חלשה" if tr["r2"] < 0.3 else "בינונית"
+    rows.append(("מגמה (60 יום)", f"{direction} ({slope:+.1f}% לשבוע), איכות {qual} (R² {tr['r2']:.2f}), {place}"))
+    for key, name in (("support_line", "קו מגמה תחתון"), ("resistance_line", "קו מגמה עליון")):
+        t = tr.get(key)
+        if t:
+            state = " - נשבר" if t["broken"] else ""
+            rows.append((name, f"{f(t['value'])} כרגע, שיפוע {t['slope_pct_week']:+.1f}% לשבוע{state}"))
+
+    parts = []
+    for n in (20, 50, 100, 200):
+        m = ma.get(f"sma{n}")
+        if m:
+            parts.append(f"{n}: {f(m['value'])} ({m['dist_pct']:+.1f}%{'↑' if m['slope_pct_10d'] > 0 else '↓'})")
+    align = {"bull": "סידור שורי: מחיר מעל 20 מעל 50 מעל 200", "bear": "סידור דובי: מחיר מתחת ל-20 מתחת ל-50 מתחת ל-200",
+             "mixed": "סידור מעורב"}.get(ma.get("alignment", ""), "")
+    rows.append(("ממוצעים נעים", " · ".join(parts) + (f" | {align}" if align else "")))
+
+    macd_txt = "חיובי" if mo["macd_hist"] > 0 else "שלילי"
+    macd_txt += " ומתחזק" if mo["macd_hist_rising"] else " ומאט"
+    stoch = mo["stoch_k"]
+    stoch_txt = "קנוי יתר" if stoch >= 80 else "מכור יתר" if stoch <= 20 else "ניטרלי"
+    rsi = mo["rsi"]
+    rsi_txt = "קנוי יתר" if rsi >= 70 else "מכור יתר" if rsi <= 30 else "ניטרלי"
+    rows.append(("מומנטום", f"RSI {rsi:.0f} ({rsi_txt}) · MACD {macd_txt} · סטוכסטיק {stoch:.0f} ({stoch_txt}) · "
+                            f"שינוי 10 ימים {mo['roc10']:+.1f}%, 20 ימים {mo['roc20']:+.1f}%"))
+    if mo.get("divergence") == "bear":
+        rows.append(("דיברגנס", "דובי: המחיר בשיא חדש אבל ה-RSI חלש יותר. סימן להיחלשות המומנטום."))
+        alerts.append("דיברגנס דובי ב-RSI")
+    elif mo.get("divergence") == "bull":
+        rows.append(("דיברגנס", "שורי: המחיר בשפל חדש אבל ה-RSI גבוה יותר. סימן להיחלשות המכירות."))
+
+    # האם היעד והסטופ יושבים במקום הגיוני ביחס לרמות
+    buy = p["direction"] == "buy"
+    target, stop = p["raw_target"], p["raw_stop"]
+    blockers = [l for l in (lv["resistance"] if buy else lv["support"])
+                if (last < l["price"] < target if buy else target < l["price"] < last) and l["touches"] >= 2]
+    if blockers:
+        b = blockers[0]
+        alerts.append(f"בדרך ליעד יש {'התנגדות' if buy else 'תמיכה'} ב-{f(b['price'])} ({touch_txt(b['touches'])}). "
+                      f"היעד רחוק ממנה ולכן פחות סביר.")
+    near_sup = [l for l in (lv["support"] if buy else lv["resistance"])
+                if (stop < l["price"] < last if buy else last < l["price"] < stop)]
+    if near_sup:
+        alerts.append(f"הסטופ נמצא מעבר לרמת {'תמיכה' if buy else 'התנגדות'} ב-{f(near_sup[-1]['price'])}: "
+                      f"הוא מוגן ברמה, וזה טוב.")
+    elif (lv["support"] if buy else lv["resistance"]):
+        alerts.append("אין רמת " + ("תמיכה" if buy else "התנגדות") + " בין המחיר לסטופ: הסטופ לא מוגן ברמה.")
+    if buy and lv["resistance"] and lv["resistance"][0]["dist_pct"] < 1.5:
+        alerts.append(f"המחיר צמוד להתנגדות ב-{f(lv['resistance'][0]['price'])}: מקום פחות נוח לכניסה.")
+    if buy and ma.get("alignment") == "bear":
+        alerts.append("קנייה נגד מגמה: כל הממוצעים הנעים יורדים מעל המחיר.")
+    if buy and tr.get("support_line", {}).get("broken"):
+        alerts.append("קו המגמה התחתון נשבר.")
+    return rows, alerts
+
+
+MIN_RR_CHECK = 2.0
+MIN_SCORE_CHECK = 25
+
+
+def pre_trade_checks(p):
+    # רשימת בדיקה אוטומטית לפני כניסה. כל בדיקה: (תוצאה "ok"/"warn"/"fail", טקסט)
+    out = []
+    buy = p["direction"] == "buy"
+    rr = p.get("rr")
+    if rr is not None:
+        out.append(("ok" if rr >= MIN_RR_CHECK else "fail", f"יחס סיכוי/סיכון {rr:.1f} (מינימום {MIN_RR_CHECK:g})"))
+    out.append(("ok" if p["score"] >= MIN_SCORE_CHECK else "fail", f"ציון {p['score']} (מינימום מומלץ {MIN_SCORE_CHECK})"))
+    out.append(("ok" if p.get("n_sources", 0) >= 3 else "warn", f"{p.get('n_sources', 0)} מקורות מידע בלתי תלויים (מומלץ 3 ומעלה)"))
+    if p.get("earnings_soon"):
+        out.append(("fail", "דוחות רבעוניים בשבוע הקרוב"))
+    elif p.get("earnings_days") is None and p["asset_class"] in ("מניות ארצות הברית", "מניות ישראליות"):
+        out.append(("warn", "תאריך הדוחות הבא לא ידוע"))
+    else:
+        out.append(("ok", "אין דוחות רבעוניים קרובים"))
+    tb = p.get("tb")
+    if tb:
+        lv, ma, tr = tb["levels"], tb["ma"], tb["trend"]
+        last, target, stop = p["last"], p["raw_target"], p["raw_stop"]
+        blockers = [l for l in (lv["resistance"] if buy else lv["support"])
+                    if (last < l["price"] < target if buy else target < l["price"] < last) and l["touches"] >= 2]
+        out.append(("warn" if blockers else "ok", "יש רמת " + ("התנגדות" if buy else "תמיכה") + " חזקה בדרך ליעד" if blockers
+                    else "אין רמה חזקה בדרך ליעד"))
+        guarded = [l for l in (lv["support"] if buy else lv["resistance"])
+                   if (stop < l["price"] < last if buy else last < l["price"] < stop)]
+        out.append(("ok" if guarded else "warn", "הסטופ מוגן ברמה" if guarded else "הסטופ לא מוגן ברמת " + ("תמיכה" if buy else "התנגדות")))
+        near = buy and lv["resistance"] and lv["resistance"][0]["dist_pct"] < 1.5
+        out.append(("warn" if near else "ok", "המחיר צמוד להתנגדות" if near else "המחיר לא צמוד להתנגדות"))
+        against = (buy and (ma.get("alignment") == "bear" or tr["slope_pct_week"] < -0.5)) or \
+                  (not buy and (ma.get("alignment") == "bull" or tr["slope_pct_week"] > 0.5))
+        out.append(("warn" if against else "ok", "הכניסה נגד המגמה" if against else "הכניסה עם המגמה או ללא מגמה מנוגדת"))
+    out.append(("fail" if p.get("overlap_note") else "ok", "מתואם מאוד לפוזיציה קיימת" if p.get("overlap_note") else "לא כפול לפוזיציות קיימות"))
+    pos = p.get("position_pct")
+    out.append(("fail" if (pos is not None and pos <= 0) else "ok",
+                "אין קיבולת חשיפה פנויה" if (pos is not None and pos <= 0) else "יש קיבולת חשיפה"))
+    return out
+
+
 def build_pick(rank, p):
     cls = "buy" if p["direction"] == "buy" else "sell"
     sign = 1 if cls == "buy" else -1
@@ -1360,6 +1538,22 @@ def build_pick(rank, p):
         why += f'<div class="why-line"><span class="why-tag">חדשות</span>{esc(p["news_summary"])}</div>'
     if p["theme_notes"]:
         why += f'<div class="why-line"><span class="why-tag">תמות עולם</span>{esc(" · ".join(p["theme_notes"]))}</div>'
+    tech_rows, tech_alerts = tech_view(p)
+    tech_html = ""
+    if tech_rows:
+        body_rows = "".join(f'<div class="why-line"><span class="why-tag">{esc(k)}</span>{esc(v)}</div>' for k, v in tech_rows)
+        alerts_html = "".join(f'<div class="note warn">{esc(a)}</div>' for a in tech_alerts)
+        tech_html = (f'<div class="tech"><div class="main-title">פירוק טכני</div>{body_rows}{alerts_html}</div>')
+    checks_html = ""
+    try:
+        chk = pre_trade_checks(p)
+        passed = sum(1 for k, _ in chk if k == "ok")
+        icon = {"ok": "✓", "warn": "!", "fail": "✗"}
+        items = "".join(f'<li class="chk-{k}"><span class="chk-i">{icon[k]}</span>{esc(t)}</li>' for k, t in chk)
+        checks_html = (f'<div class="tech"><div class="main-title">רשימת בדיקה לפני כניסה: {passed} מתוך {len(chk)} עברו</div>'
+                       f'<ul class="chk">{items}</ul></div>')
+    except Exception as e:
+        print(f"שגיאה ברשימת בדיקה של {p.get('ticker')}: {e}")
     heads = ""
     if p["headlines"]:
         items = "".join(f"<li>{esc(h)}</li>" for h in p["headlines"][:3])
@@ -1377,6 +1571,8 @@ def build_pick(rank, p):
         note += f'<div class="note warn">{esc(p["regime_note"])}</div>'
     if p.get("analyst_conflict"):
         note += f'<div class="note warn">{esc(p["analyst_conflict"])}</div>'
+    if p.get("overlap_note"):
+        note += f'<div class="note warn">{esc(p["overlap_note"])}</div>'
     if p["target_note"]:
         warn = " warn" if p["target_note"].startswith("היעד מעבר") else ""
         note += f'<div class="note{warn}">{esc(p["target_note"])}</div>'
@@ -1400,6 +1596,8 @@ def build_pick(rank, p):
       <div class="pick-main">
         <div class="main-title">פירוק הציון</div>
         {rows}
+        {tech_html}
+        {checks_html}
         <div class="agree">{agree}</div>
         <div class="why">{why}{heads}</div>
         {note}
@@ -1504,6 +1702,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .heads li{ font-size:11.5px; color:var(--slate); line-height:1.55; margin-bottom:5px; }
   .note{ margin-top:12px; font-size:11.5px; color:var(--slate); line-height:1.5; }
   .note.warn{ color:var(--gold); }
+  .tech{ margin:14px 0; padding:12px 14px; border:1px solid var(--line); border-radius:8px; }
+  .tech .why-tag{ min-width:96px; }
+  .risk{ background:var(--ink-2); border:1px solid var(--line); border-radius:12px; padding:20px 24px; }
+  .risk-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:14px 0; }
+  .risk-grid div{ background:rgba(255,255,255,0.03); border-radius:8px; padding:12px; }
+  .risk-grid b{ display:block; font-size:22px; color:var(--teal); }
+  .risk-grid span{ font-size:11.5px; color:var(--slate); }
+  @media (max-width:820px){ .risk-grid{ grid-template-columns:repeat(2,1fr); } .rtab{ font-size:11px; } }
+  .rtab{ width:100%; border-collapse:collapse; font-size:12.5px; margin:8px 0; }
+  .rtab th,.rtab td{ padding:6px 8px; text-align:right; border-bottom:1px solid var(--line); vertical-align:top; }
+  .rtab th{ color:var(--slate); font-weight:500; }
+  .chk{ list-style:none; columns:2; font-size:12px; color:var(--paper-dim); line-height:1.9; }
+  .chk-i{ display:inline-block; width:18px; font-weight:700; }
+  .chk-ok .chk-i{ color:var(--teal); }
+  .chk-warn .chk-i{ color:var(--gold); }
+  .chk-fail .chk-i{ color:var(--coral); }
+  @media (max-width:820px){ .chk{ columns:1; } }
   .empty{ color:var(--slate); font-size:14px; padding:20px 0; }
   .perf table{ width:100%; border-collapse:collapse; font-size:13px; margin:8px 0; }
   .perf th, .perf td{ padding:6px 8px; text-align:right; border-bottom:1px solid var(--line); }
@@ -1524,6 +1739,7 @@ __BANNER__
 <main>
 __THEMES__
 __SECTIONS__
+__RISK__
 __PERF__
 </main>
 <footer>
@@ -1549,7 +1765,7 @@ def best_text(best):
 
 
 def build_html(top, scanned, ai_on, counts, themes=None, theme_source="none", banner="", path="index.html", best=None,
-               perf_html=""):
+               perf_html="", risk_html=""):
     if top:
         body = "".join(build_pick(i, p) for i, p in enumerate(top, 1))
     elif best is None and scanned == 0:
@@ -1572,6 +1788,7 @@ def build_html(top, scanned, ai_on, counts, themes=None, theme_source="none", ba
     out = HTML_TEMPLATE.replace("__BANNER__", banner_html)
     out = out.replace("__TITLE__", esc(title)).replace("__SUBTXT__", esc(subtxt))
     out = out.replace("__PERF__", perf_html)
+    out = out.replace("__RISK__", risk_html)
     out = out.replace("__NOW__", israel_now_text())
     out = out.replace("__SCANNED__", str(scanned))
     out = out.replace("__COUNTS__", esc(counts_text))
@@ -1607,7 +1824,7 @@ def fix_numbers(text):
     return re.sub(r"(?<![\w-])[+\-]?\d+(?:[.,:]\d+)*%?", lambda m: ltr(m.group(0)), text)
 
 
-def build_telegram_messages(top, themes=None, best=None, perf_line=""):
+def build_telegram_messages(top, themes=None, best=None, perf_line="", risk_lines=None):
     if MIN_SCORE > 0:
         lines = [RLM + f"MarketPulse - איתותים עם ציון {ltr(MIN_SCORE)} ומעלה", ""]
     else:
@@ -1629,6 +1846,14 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
             lines.append(RLM + "שים לב: " + p["position_note"])
         if p.get("position_pct") is not None:
             lines.append(RLM + f"פוזיציה מוצעת: {ltr(str(p['position_pct']) + '%')} מהתיק (הפסד עד הסטופ: {ltr(f'{RISK_PER_TRADE_PCT:g}%')} מהתיק)")
+        tr_rows, tr_alerts = tech_view(p)
+        if tr_rows:
+            tv = dict(tr_rows)
+            for key in ("תמיכה", "התנגדות", "מגמה (60 יום)", "ממוצעים נעים", "מומנטום"):
+                if key in tv:
+                    lines.append(RLM + f"{key}: " + fix_numbers(tv[key]))
+            for a in tr_alerts[:3]:
+                lines.append(RLM + "שים לב: " + fix_numbers(a))
         if p["reasons"]:
             lines.append(RLM + "נימוק: " + fix_numbers(" | ".join(p["reasons"][:4])[:320]))
         if p["target_note"].startswith(("היעד מעבר", "היעד הוגבל")):
@@ -1639,6 +1864,15 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
             lines.append(RLM + "שים לב: " + fix_numbers(p["regime_note"]))
         if p.get("analyst_conflict"):
             lines.append(RLM + "שים לב: " + fix_numbers(p["analyst_conflict"]))
+        if p.get("overlap_note"):
+            lines.append(RLM + "שים לב: " + fix_numbers(p["overlap_note"]))
+        try:
+            chk = pre_trade_checks(p)
+            bad = [t for k, t in chk if k != "ok"]
+            lines.append(RLM + f"בדיקות לפני כניסה: {ltr(sum(1 for k, _ in chk if k == 'ok'))} מתוך {ltr(len(chk))} עברו" +
+                         (": " + fix_numbers("; ".join(bad[:3])) if bad else ""))
+        except Exception:
+            pass
         if p["direction"] == "sell":
             lines.append(RLM + "איתות שלילי: רלוונטי למי שמחזיק את הנייר, או לפוזיציית שורט.")
         lines.append("")
@@ -1650,6 +1884,8 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
         lines += [""]
     if perf_line:
         lines.append(RLM + fix_numbers(perf_line))
+    for rl in (risk_lines or []):
+        lines.append(RLM + fix_numbers(rl))
     lines.append(RLM + "הרמות מחושבות אוטומטית לפי מבנה מחיר ותנודתיות. אינן ייעוץ השקעות.")
 
     messages, current = [], ""
@@ -1663,7 +1899,7 @@ def build_telegram_messages(top, themes=None, best=None, perf_line=""):
     return messages
 
 
-def send_telegram_alert(top, themes=None, best=None, perf_line=""):
+def send_telegram_alert(top, themes=None, best=None, perf_line="", risk_lines=None):
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
     if not bot_token or not chat_id:
@@ -1671,7 +1907,7 @@ def send_telegram_alert(top, themes=None, best=None, perf_line=""):
         return
 
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    for text in build_telegram_messages(top, themes, best, perf_line):
+    for text in build_telegram_messages(top, themes, best, perf_line, risk_lines):
         try:
             response = requests.post(url, data={"chat_id": chat_id, "text": text}, timeout=15)
             if response.status_code == 200:
@@ -1744,6 +1980,11 @@ def main():
     ranked = [p for p in shortlist if p["score"] >= MIN_SCORE and not p.get("earnings_soon")
               and not (p.get("overextended") and (p["direction"] == "sell" or FILTER_OVEREXTENDED_BUY))
               and (p["direction"] == "buy" or SELL_SIGNALS_ENABLED)]
+    cooling = recent_stops(load_log(), datetime.utcnow().date())
+    cooled = [p["ticker"] for p in ranked if p["ticker"] in cooling]
+    if cooled:
+        print(f"דולגו בגלל המתנה של {STOP_COOLDOWN_DAYS} ימים אחרי סטופ: " + ", ".join(cooled))
+        ranked = [p for p in ranked if p["ticker"] not in cooling]
     top = pick_diversified(ranked, themes, DASHBOARD_TOP)
     total_pos = sum(p.get("position_pct") or 0 for p in top)
     if total_pos > TOTAL_EXPOSURE_CAP_PCT:
@@ -1756,18 +1997,38 @@ def main():
 
     # מעקב ביצועים: כשל כאן לא עוצר את הדשבורד וההתראה
     perf_html, perf_line = "", ""
+    log = []
     try:
         log = load_log()
         retire_old(log)
         evaluate_open(log)
+        apply_capacity(top, log)
         log_signals(log, top, themes, datetime.utcnow().strftime("%Y-%m-%d"))
         save_log(log)
         perf_html, perf_line = build_perf(log)
     except Exception as e:
         print(f"שגיאה במעקב ביצועים: {e}")
 
-    build_html(top, len(candidates), bool(ai_result), counts, themes, theme_source, best=best, perf_html=perf_html)
-    send_telegram_alert(top, themes, best, perf_line)
+    # ניתוח תיק וסיכון: כשל כאן לא עוצר את הדשבורד וההתראה
+    risk_html, risk_lines = "", []
+    try:
+        pos, src, raw_total = risk_report.load_positions(log, top, datetime.utcnow().strftime("%Y-%m-%d"), TOTAL_EXPOSURE_CAP_PCT)
+        rep = risk_report.analyze(pos, raw_total, CLASS_MAX_POSITION, MAX_POSITION_PCT, TOTAL_EXPOSURE_CAP_PCT)
+        if rep:
+            for t, note in risk_report.overlap_notes(top, rep).items():
+                for p in top:
+                    if p["ticker"] == t:
+                        p["overlap_note"] = note
+            risk_html = risk_report.build_risk_html(rep, src)
+            risk_lines = risk_report.risk_telegram_lines(rep)
+            print(f"ניתוח סיכון: חשיפה {rep['exposure']}%, תנודתיות {rep['port_vol']}%, בטא {rep['port_beta']}, "
+                  f"הימורים עצמאיים {rep['n_eff']} מתוך {rep['n']}.")
+    except Exception as e:
+        print(f"שגיאה בניתוח סיכון: {e}")
+
+    build_html(top, len(candidates), bool(ai_result), counts, themes, theme_source, best=best, perf_html=perf_html,
+               risk_html=risk_html)
+    send_telegram_alert(top, themes, best, perf_line, risk_lines)
 
 
 class _Scrub:
