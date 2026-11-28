@@ -1804,10 +1804,10 @@ def build_html(top, scanned, ai_on, counts, themes=None, theme_source="none", ba
         body = f'<div class="empty">{esc(none_msg)}{extra}</div>'
     if MIN_SCORE > 0:
         title = f"הזדמנויות עם ציון {MIN_SCORE} ומעלה"
-        subtxt = f"מוצגים רק איתותים עם ציון {MIN_SCORE} ומעלה (עד {DASHBOARD_TOP}), ללא מניות עם דוחות רבעוניים בשבוע הקרוב וללא ניירות מתוחים."
+        subtxt = f"מוצגים רק איתותים עם ציון {MIN_SCORE} ומעלה (עד {DASHBOARD_TOP}), ללא מניות עם דוחות רבעוניים בשבוע הקרוב."
     else:
         title = f"{DASHBOARD_TOP} ההזדמנויות המובילות היום"
-        subtxt = "מוצגים הציונים הגבוהים ביותר, בלי סף מינימלי, ללא מניות שיש להן דוחות רבעוניים בשבוע הקרוב וללא ניירות מתוחים (RSI קיצוני)."
+        subtxt = "מוצגים הציונים הגבוהים ביותר, בלי סף מינימלי, ללא מניות שיש להן דוחות רבעוניים בשבוע הקרוב."
     sections = f'<div class="section-head">{esc(title)}</div>{body}'
     counts_text = " · ".join(f"{k} {v}" for k, v in counts.items())
     banner_html = f'<div class="banner">{esc(banner)}</div>' if banner else ""
