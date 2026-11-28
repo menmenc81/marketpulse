@@ -27,7 +27,7 @@ from email.utils import parsedate_to_datetime
 # ------------------------------------------------------------------
 DASHBOARD_TOP = 5             # כמה איתותים להציג בדשבורד (הציונים הגבוהים ביותר מכל הנכסים)
 TELEGRAM_TOP = 5              # כמה איתותים לשלוח בטלגרם
-MIN_SCORE = 0                 # מציגים ושולחים רק איתותים עם ציון זה ומעלה (הציון עצמו כלול).
+MIN_SCORE = 25                # מציגים ושולחים רק איתותים עם ציון זה ומעלה (הציון עצמו כלול).
                               # 0 = ללא סף: תמיד מוצגים 5 הציונים הגבוהים. אחרי שיצטברו נתוני מעקב אפשר להעלות
 SHORTLIST_TOTAL = 40          # כמה מועמדים (מכל הנכסים יחד) עוברים לשלב ההעשרה
 
@@ -42,6 +42,9 @@ SELL_SIGNALS_ENABLED = False  # בדיקה היסטורית: לאיתותי מכ
 FILTER_OVEREXTENDED_BUY = False  # בדיקה היסטורית: קניות "מתוחות" דווקא הצליחו יותר, ולכן לא נפסלות
 STOP_COOLDOWN_DAYS = 10       # אחרי סטופ על נייר, לא נותנים עליו איתות חדש בתקופה הזו (מונע "ניסיון נוסף" אוטומטי)
 MAX_TARGET_ATR = 6.0          # תקרת מרחק היעד, בכפולות של ATR (אופק של כמה שבועות)
+PORTFOLIO_VALUE_ILS = 25000    # שווי התיק של המשתמש בש"ח, להצגת סכומים
+MAX_OPEN_POSITIONS = 12       # מקסימום פוזיציות פתוחות בו זמנית; מעבר לכך איתות חדש מוצג בלי גודל פוזיציה
+TIME_EXIT_CALENDAR_DAYS = 42  # בערך 30 ימי מסחר: איתות שלא הגיע ליעד או לסטופ עד אז נסגר
 RISK_PER_TRADE_PCT = 1.0      # כמה אחוז מהתיק מסכנים בכל איתות (ההפסד אם הסטופ נפגע). משנים כאן
 CLASS_MAX_POSITION = {"אגרות חוב": 10.0, "קריפטו": 5.0, "סחורות": 15.0}   # תקרות לפי סוג נכס (סטופ צמוד לא אומר סיכון נמוך)
 TOTAL_EXPOSURE_CAP_PCT = 100.0   # סך הפוזיציות המוצעות באותו יום; אם עוברים אותו, כולן מוקטנות באופן יחסי
@@ -1138,6 +1141,19 @@ def apply_capacity(top, log):
                    if r.get("status") == "open" and r.get("shown") and r.get("v") == MODEL_VERSION and r["ticker"] not in today_tickers)
         open_now = {r["ticker"] for r in log if r.get("status") == "open"}
     fresh = [p for p in top if p["ticker"] not in open_now and p.get("position_pct")]
+    if os.path.exists(risk_report.PORTFOLIO_FILE):
+        held_n = len({x["ticker"] for x in pos if x["ticker"] not in today_tickers})
+    else:
+        held_n = len({r["ticker"] for r in log if r.get("status") == "open" and r.get("shown")
+                      and r.get("v") == MODEL_VERSION and r["ticker"] not in today_tickers})
+    slots = max(0, MAX_OPEN_POSITIONS - held_n)
+    for p in fresh[slots:]:
+        p["position_pct"] = 0.0
+        p["position_note"] = (f"אין מקום: כבר יש {held_n} פוזיציות פתוחות (מקסימום {MAX_OPEN_POSITIONS}). "
+                              "הוספה כאן מחייבת לסגור פוזיציה אחרת.")
+    if len(fresh) > slots:
+        print(f"מגבלת פוזיציות: פתוחות {held_n}, מקסימום {MAX_OPEN_POSITIONS}. {len(fresh) - slots} איתותים חדשים ללא גודל פוזיציה.")
+    fresh = fresh[:slots]
     capacity = max(0.0, TOTAL_EXPOSURE_CAP_PCT - held)
     need = sum(p["position_pct"] for p in fresh)
     if need > capacity:
@@ -1361,6 +1377,16 @@ def build_perf(log):
 def esc(text):
     return html.escape(str(text), quote=True)
 
+
+
+def ils_text(pct):
+    amount = round(pct * PORTFOLIO_VALUE_ILS / 100 / 10) * 10
+    return f"{amount:,.0f} ₪"
+
+
+def time_exit_text():
+    d = datetime.utcnow() + timedelta(days=TIME_EXIT_CALENDAR_DAYS)
+    return f"יציאה לפי זמן: אם עד {d.strftime('%d/%m/%Y')} (כ-{TRACK_HORIZON_DAYS} ימי מסחר) לא הגיע ליעד או לסטופ, סוגרים."
 
 
 def touch_txt(n):
@@ -1590,7 +1616,8 @@ def build_pick(rank, p):
           <div class="lvl-row"><span>יעד (לימיט)</span><b class="up">{p['target']}</b><i>{p['target_pct']}</i></div>
           <div class="lvl-row"><span>סטופ לוס</span><b class="down">{p['stop']}</b><i>{p['stop_pct']}</i></div>
           <div class="rr mono">סיכוי/סיכון {p['rr_text']}</div>
-          <div class="rr mono">פוזיציה מוצעת: {p['position_pct']}% מהתיק</div>
+          <div class="rr mono">פוזיציה מוצעת: {p['position_pct']}% מהתיק ({ils_text(p['position_pct'])})</div>
+          <div class="rr">{esc(time_exit_text())}</div>
         </div>
       </div>
       <div class="pick-main">
@@ -1845,7 +1872,8 @@ def build_telegram_messages(top, themes=None, best=None, perf_line="", risk_line
         if p.get("position_note"):
             lines.append(RLM + "שים לב: " + p["position_note"])
         if p.get("position_pct") is not None:
-            lines.append(RLM + f"פוזיציה מוצעת: {ltr(str(p['position_pct']) + '%')} מהתיק (הפסד עד הסטופ: {ltr(f'{RISK_PER_TRADE_PCT:g}%')} מהתיק)")
+            lines.append(RLM + f"פוזיציה מוצעת: {ltr(str(p['position_pct']) + '%')} מהתיק ({ltr(ils_text(p['position_pct']))}) (הפסד עד הסטופ: {ltr(f'{RISK_PER_TRADE_PCT:g}%')} מהתיק)")
+        lines.append(RLM + time_exit_text())
         tr_rows, tr_alerts = tech_view(p)
         if tr_rows:
             tv = dict(tr_rows)
@@ -2013,7 +2041,7 @@ def main():
     risk_html, risk_lines = "", []
     try:
         pos, src, raw_total = risk_report.load_positions(log, top, datetime.utcnow().strftime("%Y-%m-%d"), TOTAL_EXPOSURE_CAP_PCT)
-        rep = risk_report.analyze(pos, raw_total, CLASS_MAX_POSITION, MAX_POSITION_PCT, TOTAL_EXPOSURE_CAP_PCT)
+        rep = risk_report.analyze(pos, raw_total, CLASS_MAX_POSITION, MAX_POSITION_PCT, TOTAL_EXPOSURE_CAP_PCT, PORTFOLIO_VALUE_ILS)
         if rep:
             for t, note in risk_report.overlap_notes(top, rep).items():
                 for p in top:

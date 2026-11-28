@@ -136,7 +136,7 @@ def _groups(corr, names, thr):
     return [v for v in comp.values() if len(v) >= 2]
 
 
-def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0):
+def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0, portfolio_ils=None):
     class_caps = class_caps or {}
     names = [p["ticker"] for p in positions]
     rets = fetch_returns(names)
@@ -238,6 +238,14 @@ def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0
     d = CRASH
     put_pay = max(0.0, d - pp["put_strike_pct"]) - pp["put_cost_pct"]                       # רווח פוט על 1 יחידת נכס
     spread_pay = min(max(0.0, d - pp["spread_lo"]), pp["spread_hi"] - pp["spread_lo"]) - pp["spread_cost_pct"]
+    contract_ils, impractical = None, False
+    if portfolio_ils and pp.get("spot"):
+        try:
+            fx = float(yf.Ticker("ILS=X").history(period="5d")["Close"].iloc[-1])
+            contract_ils = pp["spot"] * 100 * fx
+            impractical = contract_ils > portfolio_ils
+        except Exception as e:
+            print(f"risk: לא ניתן לקבל שער דולר-שקל: {e}")
     hedges = [
         {"name": "ללא גידור", "cost": 0.0, "loss": loss_beta, "note": "הפסד צפוי לפי בטא"},
         {"name": f"פוט על S&P 500, {pp['put_strike_pct']:g}% מחוץ לכסף, כיסוי מלא", "cost": hedge_base * pp["put_cost_pct"],
@@ -258,12 +266,15 @@ def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0
                        "note": f"לא נדרשת: התנודתיות הנוכחית ({port_vol:.1f}%) נמוכה מהיעד ({TARGET_VOL:g}%)"})
     for h in hedges:
         h["cost"], h["loss"] = round(h["cost"], 2), round(h["loss"], 1)
+        if impractical and ("פוט" in h["name"] or "ספרד" in h["name"]):
+            h["note"] = "לא מעשי בגודל תיק זה: " + h["note"]
     return {
         "exposure": round(exposure * 100, 1), "raw_total": round(raw_total, 1), "n": len(names),
         "port_vol": round(port_vol, 1), "port_beta": round(port_beta, 2), "n_eff": round(n_eff, 1), "pc1": round(pc1 * 100, 0),
         "avg_corr": round(avg_corr, 2), "pairs": pairs[:10], "clusters": clusters[:6], "by_class": {k: round(v, 1) for k, v in by_class.items()},
         "scenario": {"crash": CRASH, "beta": round(loss_beta, 1), "crisis": round(loss_corr1, 1), "stops": round(loss_stops, 1)},
         "weak": weak[:10], "rebalance": rebalance[:12], "new_exposure": round(new_exposure * 100, 0),
+        "portfolio_ils": portfolio_ils, "contract_ils": contract_ils, "options_impractical": impractical,
         "hedges": hedges, "hedge_source": pp["source"], "vix": pp.get("vix"),
         "betas": {n: round(float(b), 2) for n, b in zip(names, beta)},
         "_corr": corr,
@@ -305,9 +316,11 @@ def build_risk_html(rep, source):
              f'<div><b class="mono">{rep["port_beta"]:g}</b><span>בטא לשוק (1 = כמו S&P 500)</span></div>'
              f'<div><b class="mono">{rep["n_eff"]:g}</b><span>הימורים בלתי תלויים אמיתיים מתוך {rep["n"]}</span></div>'
              f'<div><b class="mono">{rep["pc1"]:g}%</b><span>מהסיכון נובע מגורם משותף אחד</span></div></div>')
+    pv = rep.get("portfolio_ils")
+    ils = (lambda pct: f" (כ-{pct * pv / 100:,.0f} ₪)") if pv else (lambda pct: "")
     h.append(f'<div class="why-line"><span class="why-tag">ירידה של {sc["crash"]:g}%</span>'
-             f'הפסד צפוי לתיק: <b class="mono">{sc["beta"]:g}%</b> לפי בטא, '
-             f'<b class="mono">{sc["crisis"]:g}%</b> במשבר (כשהכול נופל יחד), '
+             f'הפסד צפוי לתיק: <b class="mono">{sc["beta"]:g}%</b>{ils(sc["beta"])} לפי בטא, '
+             f'<b class="mono">{sc["crisis"]:g}%</b>{ils(sc["crisis"])} במשבר (כשהכול נופל יחד), '
              f'ו-<b class="mono">{sc["stops"]:g}%</b> אם כל הסטופים מתבצעים בלי פער מחיר.</div>')
     if rep["weak"]:
         h.append('<div class="group-title">נקודות חולשה</div>' + "".join(f'<div class="note warn">{_e(x)}</div>' for x in rep["weak"]))
@@ -322,15 +335,19 @@ def build_risk_html(rep, source):
     if rep["by_class"]:
         h.append('<div class="group-title">פילוח לפי סוג נכס</div><div class="why-line">' +
                  " · ".join(f"{_e(k)} {v:g}%" for k, v in sorted(rep["by_class"].items(), key=lambda x: -x[1])) + "</div>")
-    rb = "".join(f'<tr><td class="mono">{_e(r["ticker"])}</td><td>{r["current"]:g}%</td><td><b>{r["target"]:g}%</b></td>'
+    money = (lambda pct: f" ({pct * pv / 100:,.0f} ₪)") if pv else (lambda pct: "")
+    rb = "".join(f'<tr><td class="mono">{_e(r["ticker"])}</td><td>{r["current"]:g}%{money(r["current"])}</td><td><b>{r["target"]:g}%</b>{money(r["target"])}</td>'
                  f'<td>{r["risk_share"]:g}%</td><td>{r["vol"]:g}%</td></tr>' for r in rep["rebalance"])
     h.append('<div class="group-title">איזון מחדש לפי סיכון (משקל הפוך לתנודתיות, באותה חשיפה, עם תקרות)</div>'
              f'<table class="rtab"><tr><th>נייר</th><th>משקל נוכחי</th><th>משקל מוצע</th><th>חלק מהסיכון</th><th>תנודתיות שנתית</th></tr>{rb}</table>')
     if rep["new_exposure"] < rep["exposure"]:
         h.append(f'<div class="note warn">כדי להגיע לתנודתיות יעד של {TARGET_VOL:g}% בשנה, החשיפה הכוללת צריכה לרדת מ-{rep["exposure"]:g}% ל-{rep["new_exposure"]:g}% מהתיק (השאר במזומן).</div>')
-    hb = "".join(f'<tr><td>{_e(x["name"])}</td><td>{x["cost"]:g}%</td><td><b>{x["loss"]:g}%</b></td><td>{_e(x["note"])}</td></tr>' for x in rep["hedges"])
+    hb = "".join(f'<tr><td>{_e(x["name"])}</td><td>{x["cost"]:g}%{money(x["cost"])}</td><td><b>{x["loss"]:g}%</b>{money(x["loss"])}</td><td>{_e(x["note"])}</td></tr>' for x in rep["hedges"])
     h.append(f'<div class="group-title">הגנה מפני ירידה של {sc["crash"]:g}% בשוק (מקור מחירי האופציות: {_e(rep["hedge_source"])})</div>'
              f'<table class="rtab"><tr><th>אסטרטגיה</th><th>עלות (אחוזי תיק)</th><th>הפסד בירידה של {sc["crash"]:g}%</th><th>הערות</th></tr>{hb}</table>')
+    if rep.get("options_impractical") and rep.get("contract_ils"):
+        h.append(f'<div class="note warn">חוזה אופציה אחד על SPY מכסה כ-{rep["contract_ils"]:,.0f} ₪, פי {rep["contract_ils"] / pv:.0f} משווי התיק שלך ({pv:,.0f} ₪). '
+                 'לכן פוטים על SPY אינם מעשיים לתיק בגודל כזה. החלופות המעשיות: הקטנת חשיפה למזומן, או קרן הפוכה (SH) בסכום קטן.</div>')
     h.append('<div class="note">מספר חוזים בקירוב: שווי התיק כפול אחוז הכיסוי לחלק ב-(100 כפול מחיר SPY). אופציות כרוכות בסיכון ובמורכבות, ופוט מפסיד את כל הפרמיה אם השוק לא יורד. '
              'הפסד בפועל יהיה שונה מהחישוב: מתאמים משתנים במשבר, ויכולים להיות פערי מחיר בסטופים.</div>')
     h.append("</div>")
@@ -343,7 +360,8 @@ def risk_telegram_lines(rep):
     sc = rep["scenario"]
     L = [f"ניתוח תיק: חשיפה {rep['exposure']:g}%, תנודתיות {rep['port_vol']:g}%, בטא {rep['port_beta']:g}, "
          f"{rep['n_eff']:g} הימורים בלתי תלויים מתוך {rep['n']}.",
-         f"בירידה של {sc['crash']:g}% בשוק: הפסד צפוי {sc['beta']:g}% מהתיק (עד {sc['crisis']:g}% במשבר)."]
+         f"בירידה של {sc['crash']:g}% בשוק: הפסד צפוי {sc['beta']:g}% מהתיק" +
+         (f" (כ-{sc['beta'] * rep['portfolio_ils'] / 100:,.0f} ₪)" if rep.get("portfolio_ils") else "") + f", עד {sc['crisis']:g}% במשבר."]
     if rep["raw_total"] > rep["exposure"] * 1.05:
         L.append(f"אזהרה: סך הפוזיציות לכל האיתותים הפתוחים הוא {rep['raw_total']:g}% מהתיק.")
     for c in rep["clusters"][:2]:
