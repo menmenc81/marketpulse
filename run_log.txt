@@ -12,15 +12,16 @@ HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","desc
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: SAE.TA"}}}
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: PHOE.TA"}}}
 HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"No fundamentals data found for symbol: CLIS.TA"}}}
-כותרות חדשות: נמצאו ל-35 מתוך 40 מועמדים (yfinance: 34, RSS: 1).
-ניתוח AI הושלם עבור 35 ניירות ערך.
+כותרות חדשות: נמצאו ל-34 מתוך 40 מועמדים (yfinance: 33, RSS: 1).
+ניתוח AI הושלם עבור 34 ניירות ערך.
 מצב שוק חלש: S&P 500 מתחת לממוצע 200 יום
-דוחות רבעוניים: תאריך ידוע ל-28 מניות, לא ידוע ל-4, בטווח 7 ימים: 3.
-דולגו בגלל דוחות קרובים: SNOW, MDB, SAE.TA
+דוחות רבעוניים: תאריך ידוע ל-27 מניות, לא ידוע ל-4, בטווח 7 ימים: 2.
+דולגו בגלל דוחות קרובים: MDB, SAE.TA
 מעקב: 0 איתותים נסגרו בריצה זו.
 נרשמו 0 איתותים חדשים למעקב.
 ניתוח סיכון: חשיפה 100.0%, תנודתיות 8.9%, בטא 0.44, הימורים עצמאיים 13.3 מתוך 33.
 index.html נוצר בהצלחה.
+הודעת טלגרם נשלחה בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.
 הודעת טלגרם נשלחה בהצלחה.
 נאספו נתונים פונדמנטליים ל-126 מתוך 126 מניות, נשמר ב-fundamentals/2026-11.csv
