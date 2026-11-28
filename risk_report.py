@@ -248,9 +248,14 @@ def analyze(positions, raw_total, class_caps=None, pos_cap=25.0, total_cap=100.0
          "note": f"זול יותר ({pp['spread_cost_pct']:.1f}%), אבל ההגנה נעצרת בירידה של {pp['spread_hi']:g}%"},
         {"name": "קרן הפוכה ל-S&P 500 (SH) שמכסה חצי מהחשיפה לשוק", "cost": 0.0, "loss": loss_beta * 0.5,
          "note": f"בערך {hedge_base * 50:.0f}% מהתיק בקרן ההפוכה, ממומן ממזומן או ממכירת פוזיציות. אין עלות פרמיה, אבל גם מגבילה רווח בעליות, ומתפרקת בטווח ארוך"},
-        {"name": f"הקטנת חשיפה ל-{new_exposure * 100:.0f}% (תנודתיות יעד {TARGET_VOL:g}%)", "cost": 0.0,
-         "loss": loss_beta * (new_exposure / exposure if exposure else 1), "note": "הדרך הזולה והפשוטה ביותר: פחות מניות, יותר מזומן"},
     ]
+    if new_exposure < exposure * 0.98:
+        hedges.append({"name": f"הקטנת חשיפה ל-{new_exposure * 100:.0f}% (תנודתיות יעד {TARGET_VOL:g}%)", "cost": 0.0,
+                       "loss": loss_beta * (new_exposure / exposure if exposure else 1),
+                       "note": "הדרך הזולה והפשוטה ביותר: פחות מניות, יותר מזומן"})
+    else:
+        hedges.append({"name": "הקטנת חשיפה", "cost": 0.0, "loss": loss_beta,
+                       "note": f"לא נדרשת: התנודתיות הנוכחית ({port_vol:.1f}%) נמוכה מהיעד ({TARGET_VOL:g}%)"})
     for h in hedges:
         h["cost"], h["loss"] = round(h["cost"], 2), round(h["loss"], 1)
     return {
